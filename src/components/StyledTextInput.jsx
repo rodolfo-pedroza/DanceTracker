@@ -9,14 +9,18 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 10,
     },
+    error: {
+        borderColor: theme.colors.danger,
+    },
 });
 
-const StyledTextInput = ({ style, ...props }) => {
+const StyledTextInput = ({ style = {}, error, ...props }) => {
 
-    const inputSyle= {
-        ...styles.textInput,
-        ...style,
-    };
+    const inputSyle= [
+        styles.textInput,
+        style,
+        error && styles.error,
+    ]
 
     return <TextInput style={inputSyle} {...props} />;
     

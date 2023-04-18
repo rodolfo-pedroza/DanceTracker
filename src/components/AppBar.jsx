@@ -9,21 +9,23 @@ const styles = StyleSheet.create({
         backgroundColor: theme.effects.blueShadow,
         flexDirection: 'row',
         paddingTop: Constants.statusBarHeight + 10,
-        paddingLeft: 10,
+    },
+    scroll: {
+        paddingBottom: 15,
     },
     text: {
         color: theme.colors.black,
         paddingHorizontal: 10,
     },
     active: {
-        color: theme.colors.white,
+        color: theme.colors.gray1,
     },
 });
 
 const AppBarTab = ({ children, to}) => {
 
-    const {pathnames} = useLocation();
-    const active = pathnames === to;
+    const { pathname } = useLocation();
+    const active = pathname  === to;
 
     const textStyles = [
         styles.text,
@@ -40,7 +42,7 @@ const AppBarTab = ({ children, to}) => {
 const AppBar = () => {
     return (
         <View style={styles.container}>
-            <ScrollView horizontal style={styles.scroll}>
+            <ScrollView showsHorizontalScrollIndicator={false} horizontal style={styles.scroll}>
                 <AppBarTab to='/'>DanceTracker</AppBarTab>
                 <AppBarTab to='/login'>Sign In</AppBarTab>
             </ScrollView>

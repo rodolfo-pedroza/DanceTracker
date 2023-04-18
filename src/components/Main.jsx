@@ -1,24 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { Route, Routes } from 'react-router-native';
+import Login from '../pages/Login.jsx'
+import Home from '../pages/Home';
+import AppBar from './AppBar.jsx';
+
 
 const Main = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>DanceTracker</Text>
+    <View style={{flex: 1}}>
+      <AppBar />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});
 
 export default Main;

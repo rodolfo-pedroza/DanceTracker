@@ -1,8 +1,10 @@
-import { View, Button, StyleSheet } from "react-native";
-import { Formik, useField } from "formik";
-import StyledTextInput from "../components/StyledTextInput";
-import {loginValidationSchema} from '../validationSchemas/login.js'    
-import StyledText from "../components/StyledText";
+import { View, Button, StyleSheet, Text } from "react-native";
+import { Formik } from "formik";
+import { loginValidationSchema } from '../validationSchemas/login.js'    
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
+import { Link, useNavigate } from "react-router-native";
+import FormikInputValue from "../components/FormikInputValue";
 
 const initialValues = {
     email: '',
@@ -19,27 +21,32 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: -5,  
     },
+    footerText: {
+        fontSize: 16,
+        color: '#2e2e2d',
+    },
+    footerLink: {
+        color: '#788eec',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
 });
 
-const FormikInputValue = ( { name, ...props } ) => {
-    const [field, meta, helpers] = useField(name);
 
+export default function LoginPage({setUser}) {
+    
+    const onSubmit = async (values) => {
+        try{
+            const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+            console.log('User logged in successfully');
+            setUser(userCredential.user);
+        } catch (error) {
+            console.log('Error logging in:', error);
+        }
+    };
+    
     return (
-        <>
-            <StyledTextInput
-                error={meta.error}
-                value={field.value}
-                onChangeText={value => helpers.setValue(value)}
-                {...props}
-            />
-            {meta.error && <StyledText style={styles.error}>{meta.error}</StyledText>}
-        </>
-    );
-}
-
-export default function LoginPage() {
-    return (
-       <Formik validationSchema={loginValidationSchema} initialValues={initialValues} onSubmit={ values => console.log(values)}>
+       <Formik validationSchema={loginValidationSchema} initialValues={initialValues} onSubmit={onSubmit}>
         {( { handleSubmit } ) => (
             <View style={styles.form}>
                 <FormikInputValue 
@@ -52,9 +59,15 @@ export default function LoginPage() {
                     secureTextEntry
                 />
                 <Button onPress={handleSubmit} title="Sign In" />
+                <Text styles={styles.footerText}>
+                    Don't have an account? 
+                    <Link to="/registration" >
+                        <Text style={styles.footerLink}>Sign Up</Text>
+                    </Link>
+                </Text>
             </View>
             )
         }
-       </Formik>
+       </Formik>       
     );
 }

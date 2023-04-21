@@ -1,10 +1,10 @@
 import { View, Button, StyleSheet, Text } from "react-native";
 import { Formik } from "formik";
 import { loginValidationSchema } from '../validationSchemas/login.js'    
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/config";
-import { Link, useNavigate } from "react-router-native";
+import { useNavigate } from "react-router-native";
 import FormikInputValue from "../components/FormikInputValue";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config.js";
 
 const initialValues = {
     email: '',
@@ -35,6 +35,12 @@ const styles = StyleSheet.create({
 
 export default function LoginPage({setUser}) {
     
+    const navigate = useNavigate();
+
+    const onFooterLinkPress = () => {
+        navigate("/RegistrationPage");
+    };
+    
     const onSubmit = async (values) => {
         try{
             const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
@@ -60,10 +66,7 @@ export default function LoginPage({setUser}) {
                 />
                 <Button onPress={handleSubmit} title="Sign In" />
                 <Text styles={styles.footerText}>
-                    Don't have an account? 
-                    <Link to="/registration" >
-                        <Text style={styles.footerLink}>Sign Up</Text>
-                    </Link>
+                    Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign Up</Text>
                 </Text>
             </View>
             )

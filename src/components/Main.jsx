@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-native';
 import Login from '../pages/Login.jsx'
 import Home from '../pages/Home';
 import AppBar from './AppBar.jsx';
+import Gallery from '../pages/Gallery.jsx';
 
 
 const Main = () => {
@@ -12,6 +13,7 @@ const Main = () => {
       <AppBar />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/gallery' element={<Gallery />} />
         <Route path='/login' element={<Login />} />
       </Routes>
     </View>

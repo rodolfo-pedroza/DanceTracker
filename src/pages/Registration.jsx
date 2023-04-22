@@ -1,11 +1,9 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { useNavigate } from "react-router-native";
+import { StyleSheet, View } from "react-native";
 import { registrationValidationSchema } from "../validationSchemas/registration.js";
 import FormikInputValue from "../components/FormikInputValue";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { Text, Button } from "react-native-paper";
+import { useAuth } from "../contexts/authContext.js";
 
 const initialValues = {
   name: '',
@@ -28,6 +26,7 @@ const styles = StyleSheet.create({
     footerText: {
         fontSize: 16,
         color: '#2e2e2d',
+        textAlign: 'center',
     },
     footerLink: {
         color: '#788eec',
@@ -36,21 +35,19 @@ const styles = StyleSheet.create({
     },
 });
 
-export default function RegistrationPage({setUser}) {
-  const navigate = useNavigate();
+export default function RegistrationPage({navigation}) {
 
+  const { user, register } = useAuth();
+  
   const onFooterLinkPress = () => {
-    navigate("/");
+    navigation.navigate('LoginPage');
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
+    console.log(user);
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      await updateProfile(user, { displayName: `\${values.name} \${values.lastname}` })
+      await register(values.name, values.lastname, values.email, values.password);
       console.log("User registered successfully");
-      setUser(user);
-      navigate( '/', { replace: true });
     } catch (error) {
       console.log("Error registering:", error.message);
     }
@@ -82,9 +79,9 @@ export default function RegistrationPage({setUser}) {
             name="confirmPassword"
             secureTextEntry
           />
-          <Button onPress={handleSubmit} title="Register" />
+          <Button onPress={handleSubmit} mode="contained" >Register</Button>
           <Text styles={styles.footerText}>
-            Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text>
+            Already have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text>
           </Text>
         </View>
       )}

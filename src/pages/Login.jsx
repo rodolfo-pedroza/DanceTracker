@@ -1,10 +1,10 @@
-import { View, Button, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import { loginValidationSchema } from '../validationSchemas/login.js'    
-import { useNavigate } from "react-router-native";
 import FormikInputValue from "../components/FormikInputValue";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/config.js";
+import { Text, Button } from "react-native-paper";
+import { useAuth } from "../contexts/authContext.js"
+
 
 const initialValues = {
     email: '',
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     footerText: {
         fontSize: 16,
         color: '#2e2e2d',
+        textAlign: 'center',
     },
     footerLink: {
         color: '#788eec',
@@ -33,19 +34,18 @@ const styles = StyleSheet.create({
 });
 
 
-export default function LoginPage({setUser}) {
+export default function LoginPage({navigation}) {
     
-    const navigate = useNavigate();
-
+    const { login } = useAuth();
+    
     const onFooterLinkPress = () => {
-        navigate("/RegistrationPage");
+        navigation.navigate('RegistrationPage');
     };
     
     const onSubmit = async (values) => {
         try{
-            const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+            await login(values.email, values.password);
             console.log('User logged in successfully');
-            setUser(userCredential.user);
         } catch (error) {
             console.log('Error logging in:', error);
         }
@@ -64,9 +64,9 @@ export default function LoginPage({setUser}) {
                     name='password'
                     secureTextEntry
                 />
-                <Button onPress={handleSubmit} title="Sign In" />
-                <Text styles={styles.footerText}>
-                    Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign Up</Text>
+                <Button onPress={handleSubmit} mode="contained" > Sign in </Button>
+                <Text style={styles.footerText}  >
+                    Don't have an account? <Text style={styles.footerLink} onPress={onFooterLinkPress} >Sign Up</Text>
                 </Text>
             </View>
             )

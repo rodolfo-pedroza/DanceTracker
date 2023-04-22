@@ -1,12 +1,17 @@
-import { Routes, Route } from "react-router-native";
 import Home from "../pages/Home";
-import Main from "./Main";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const AutenticatedRoutes = ({}) => {
+const Stack = createStackNavigator();
+
+const AutenticatedRoutes = ({ user }) => {
   return (
-    <Routes>
-      <Route path="/*" element={<Main  />} />
-    </Routes>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        initialParams={{ extraData: user }}
+      />
+    </Stack.Navigator>
   );
 };
 

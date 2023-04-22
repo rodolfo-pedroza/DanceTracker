@@ -1,16 +1,10 @@
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet} from 'react-native';
 import theme from '../theme';
+import { TextInput } from 'react-native-paper';
 
 const styles = StyleSheet.create({
     textInput: {
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: theme.colors.gray1,
-        padding: 10,
         margin: 10,
-    },
-    error: {
-        borderColor: theme.colors.danger,
     },
 });
 
@@ -19,10 +13,9 @@ const StyledTextInput = ({ style = {}, error, ...props }) => {
     const inputSyle= [
         styles.textInput,
         style,
-        error && styles.error,
     ]
 
-    return <TextInput style={inputSyle} {...props} />;
+    return <TextInput mode='outlined' error={error} style={inputSyle} {...props} />;
     
     }
 

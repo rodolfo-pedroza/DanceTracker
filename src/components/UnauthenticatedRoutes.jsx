@@ -1,14 +1,16 @@
-import { Routes, Route } from "react-router-native";
+import { createStackNavigator } from "@react-navigation/stack";
 import LoginPage from "../pages/Login";
 import RegistrationPage from "../pages/Registration";
 
-const UnauthenticatedRoutes = ({setUser}) => {
-  return (
-    <Routes>
-      <Route path="/" element={<LoginPage setUser={setUser} />} />
-      <Route path="/RegistrationPage" element={<RegistrationPage setUser={setUser} />} />
-    </Routes>
-  );
-}; 
+const Stack = createStackNavigator();
 
-export default UnauthenticatedRoutes;
+const UnAuthenticatedRoutes = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="LoginPage" component={LoginPage} />
+      <Stack.Screen name="RegistrationPage" component={RegistrationPage} />
+    </Stack.Navigator>
+  );
+};
+
+export default UnAuthenticatedRoutes;

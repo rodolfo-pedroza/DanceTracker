@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { useAuth } from "../contexts/authContext.js";
 
 const styles = StyleSheet.create({
     footerText: {
@@ -17,9 +16,12 @@ const styles = StyleSheet.create({
 
 function Home() {
 
+  const { logout } = useAuth();
+
   const onFooterLinkPress = () => {
     try {
-      signOut(auth);
+      logout();
+      console.log("User logged out successfully");
     } catch (error) {
       console.log("Error logging out:", error.message);
     }

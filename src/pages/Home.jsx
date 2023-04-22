@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
 
 function Home() {
 
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+  console.log(user);
 
   const onFooterLinkPress = () => {
     try {
@@ -30,7 +31,7 @@ function Home() {
   return (
     <>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Working on home page</Text>
+        <Text>Welcome, {user.displayName}</Text>
           <Text styles={styles.footerText}>
             <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log Out</Text>
           </Text>

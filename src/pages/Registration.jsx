@@ -60,28 +60,34 @@ export default function RegistrationPage({navigation}) {
           <FormikInputValue
             placeholder="Name"
             name="name"
+            icon="account"
           />
           <FormikInputValue
             placeholder="Lastname"
             name="lastname"
+            icon="account"
           />
           <FormikInputValue
             placeholder="E-mail"
             name="email"
+            icon="email"
           />
           <FormikInputValue
             placeholder="Password"
             name="password"
             secureTextEntry
+            icon="lock"   
+            iconRight="eye"     
           />
           <FormikInputValue
+            secureTextEntry
             placeholder="Confirm Password"
             name="confirmPassword"
-            secureTextEntry
+            icon="lock"
           />
           <Button onPress={handleSubmit} mode="contained" >Register</Button>
-          <Text styles={styles.footerText}>
-            Already have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log in</Text>
+          <Text style={styles.footerText}  >
+            Already have an account? <Text style={styles.footerLink} onPress={onFooterLinkPress} >Sign Up</Text>
           </Text>
         </View>
       )}

@@ -1,4 +1,5 @@
-import { Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
 import theme from "../theme";
 
 const styles = StyleSheet.create({
@@ -37,7 +38,10 @@ export default function StyledText({ children, color, fontSize, fontWeight, alig
     ];
 
     return (
-        <Text style={textStyles} {...restOfProps}>
+        <Text 
+            style={textStyles}
+            {...restOfProps}
+        >
             {children}
         </Text>
     );  

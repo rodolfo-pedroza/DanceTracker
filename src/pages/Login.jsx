@@ -58,11 +58,14 @@ export default function LoginPage({navigation}) {
                 <FormikInputValue 
                     placeholder="E-mail"
                     name='email'
+                    icon='email'
                 />
                 <FormikInputValue 
                     placeholder="Password"
                     name='password'
                     secureTextEntry
+                    icon='lock'
+                    iconRight='eye'
                 />
                 <Button onPress={handleSubmit} mode="contained" > Sign in </Button>
                 <Text style={styles.footerText}  >

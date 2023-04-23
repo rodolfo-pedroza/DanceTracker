@@ -26,7 +26,7 @@ const StyledTextInput = ({ style = {}, error, icon, iconRight, secureTextEntry, 
             left={<TextInput.Icon icon={icon} />}
             right={ iconRight ? (
                 <TextInput.Icon
-                    icon={isPasswordVisible ? 'eye-off' : 'eye'}
+                    icon={isPasswordVisible ? 'eye' : 'eye-off'}
                     onPress={togglePasswordVisibility}
                 />
             ) : null}

@@ -28,7 +28,10 @@
     "react-router-native": "^6.10.0",
     "yup": "^1.1.1",
     "react-native-gesture-handler": "~2.9.0",
-    "@react-native-masked-view/masked-view": "0.2.8"
+    "@react-native-masked-view/masked-view": "0.2.8",
+    "expo-auth-session": "~4.0.3",
+    "expo-web-browser": "~12.1.1",
+    "expo-random": "~13.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

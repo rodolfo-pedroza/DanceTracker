@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../contexts/authContext.js";
+import { Button } from "react-native-paper";
 
 const styles = StyleSheet.create({
     footerText: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
     },
 });
 
-function Home() {
+function Home({ navigation }) {
 
   const { user, logout } = useAuth();
   console.log(user);
@@ -27,7 +28,12 @@ function Home() {
       console.log("Error logging out:", error.message);
     }
   };
+  
+  const onFooterLinkPress2 = () => {  
+    console.log(user.displayName);
+  };
 
+  
   return (
     <>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -35,6 +41,10 @@ function Home() {
           <Text styles={styles.footerText}>
             <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log Out</Text>
           </Text>
+          {/* <Text styles={styles.footerText}>
+            <Text onPress={onFooterLinkPress2} style={styles.footerLink}>complete</Text>
+          </Text> */}
+          {/* <Button onPress={onFooterLinkPress2}>User</Button> */}
       </View>
     </>
   );

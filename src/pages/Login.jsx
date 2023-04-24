@@ -4,6 +4,7 @@ import { loginValidationSchema } from "../validationSchemas/login.js";
 import FormikInputValue from "../components/FormikInputValue";
 import { Text, Button, IconButton } from "react-native-paper";
 import { useAuth } from "../contexts/authContext.js";
+import { KeyboardAvoidingView } from "react-native";
 
 const initialValues = {
   email: "",
@@ -63,7 +64,7 @@ export default function LoginPage({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Formik
         validationSchema={loginValidationSchema}
         initialValues={initialValues}
@@ -85,8 +86,8 @@ export default function LoginPage({ navigation }) {
                 placeholder="Password"
                 name="password"
                 secureTextEntry
-                icon="eye"
-                iconRight="lock"
+                icon="lock"
+                iconRight="eye"
               />
               <Text variant="labelLarge" style={{ textAlign: "center" }}>
                 {" "}
@@ -118,6 +119,6 @@ export default function LoginPage({ navigation }) {
           </Text>
         </Text>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

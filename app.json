@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "com.rodopunk.DanceTracker",
     "name": "DanceTracker",
     "slug": "DanceTracker",
     "version": "1.0.0",
@@ -21,10 +22,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rodopunk.DanceTracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "370f49a3-8a43-4bee-8846-630962738155"
+      }
     }
   }
 }

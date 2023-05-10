@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "44072014527",
+    "project_id": "dancetracker-0",
+    "storage_bucket": "dancetracker-0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44072014527:android:cb1393f8db1bec37b86c0a",
+        "android_client_info": {
+          "package_name": "com.rodopunk.DanceTracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44072014527-jlcef0l09fv6ikh6f8up6keg9v2gh8bd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rodopunk.DanceTracker",
+            "certificate_hash": "41136feb765d4d5688ad7be58485c7d74463ffd5"
+          }
+        },
+        {
+          "client_id": "44072014527-rt4cqevom2qe5uu7l1nfnk3jseea407i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFWybXXldzQqF3bTQ9tMhQCdPgtZKL7OU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44072014527-38pm0liugd1gcgitu55400tmjbrk2qpo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 });
 
 export default function LoginPage({ navigation }) {
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
 
   const onFooterLinkPress = () => {
     navigation.navigate("RegistrationPage");
@@ -109,7 +109,7 @@ export default function LoginPage({ navigation }) {
           Or sign in with{" "}
         </Text>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <IconButton icon="facebook" size={30} />
+          <IconButton icon="facebook" size={30} onPress={loginWithGoogle} />
           <IconButton icon="google" size={30} />
         </View>
         <Text style={styles.footerText}>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { auth } from "../firebase/config";
 import {
   GoogleAuthProvider,
@@ -15,11 +15,16 @@ const AuthContext = createContext();
 
 WebBrowser.maybeCompleteAuthSession();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, navigation }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubsribe = auth.onAuthStateChanged((user) => setUser(user));
+    const unsubsribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setLoading(false);
+      console.log("user", user);
+    });
     return unsubsribe;
   }, []);
 
@@ -30,28 +35,22 @@ export const AuthProvider = ({ children }) => {
       "44072014527-af9gagksmelb0mkult2855omths9acrv.apps.googleusercontent.com",
   });
 
-  const loginWithGoogle = async () => {
-    try {
-      await promptAsync();
-      console.log("response type: ", response.type);
-      if (response?.type === "success") {
-        const { idToken, accessToken } = response.authentication;
-        handleGoogleSignin(idToken, accessToken);
-      } else {
-        console.log("Google sign in cancelled");
-      }
-    } catch (error) {
-      console.log("Error signing in with Google!", error);
-    }
+  const loginWithGoogle = () => {
+    promptAsync();
   };
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { idToken, accessToken } = response.authentication;
+      handleGoogleSignin(idToken, accessToken);
+    }
+  }, [response]);
 
   const handleGoogleSignin = async (idToken, accessToken) => {
     try {
-      console.log("token: ", accessToken);
       const credential = GoogleAuthProvider.credential(idToken, accessToken);
       const userCredential = await signInWithCredential(auth, credential);
       setUser(userCredential.user);
-      console.log("success" + JSON.stringify(userCredential.user));
     } catch (error) {
       console.log("Error signing in with Google!", error);
     }
@@ -97,7 +96,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, loginWithGoogle }}
+      value={{ user, login, register, logout, loginWithGoogle, loading }}
     >
       {children}
     </AuthContext.Provider>

@@ -7,6 +7,7 @@ import { Button, Text } from 'react-native-paper';
 import FormikInputValue from '../components/FormikInputValue';
 import DatePicker from '../components/DatePicker';
 import SelectInput from '../components/SelectInput';
+import AppBar from '../components/AppBar';
 
 const styles = StyleSheet.create({
   container: {

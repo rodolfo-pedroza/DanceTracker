@@ -1,11 +1,9 @@
+import { ScrollView, SafeAreaView, StatusBar, KeyboardAvoidingView, StyleSheet, View } from "react-native";
 import { Formik } from "formik";
-import { StyleSheet, View } from "react-native";
-import { registrationValidationSchema } from "../validationSchemas/registration.js";
 import FormikInputValue from "../components/FormikInputValue";
+import { registrationValidationSchema } from "../validationSchemas/registration.js";
 import { Text, Button, IconButton } from "react-native-paper";
 import { useAuth } from "../contexts/authContext.js";
-import { KeyboardAvoidingView } from "react-native";
-import { ScrollView } from "react-native";
 
 const initialValues = {
   name: "",
@@ -19,6 +17,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   form: {
     flex: 3,
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
 });
 
 export default function RegistrationPage({ navigation }) {
-  const { user, register } = useAuth();
+  const { user, register, loginWithGoogle } = useAuth();
 
   const onFooterLinkPress = () => {
     navigation.navigate("LoginPage");
@@ -68,82 +67,82 @@ export default function RegistrationPage({ navigation }) {
         values.password
       );
       console.log("User registered successfully");
-      navigation.navigate("CompleteProfile");
     } catch (error) {
       console.log("Error registering:", error.message);
     }
   };
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container} >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Formik
-          validationSchema={registrationValidationSchema}
-          initialValues={initialValues}
-          onSubmit={onSubmit}
+    <SafeAreaView style={{flex:1}}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container} >
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
         >
-          {({ handleSubmit }) => (
-            <>
-              <View style={styles.form}>
-                <Text variant="headlineSmall" style={{ textAlign: "center" }}>
-                  {" "}
-                  Create an account{" "}
-                </Text>
-                <FormikInputValue placeholder="Name" name="name" icon="account" />
-                <FormikInputValue
-                  placeholder="Lastname"
-                  name="lastname"
-                  icon="account"
-                />
-                <FormikInputValue
-                  placeholder="E-mail"
-                  name="email"
-                  icon="email"
-                />
-                <FormikInputValue
-                  placeholder="Password"
-                  name="password"
-                  secureTextEntry
-                  icon="lock"
-                  iconRight="eye"
-                />
-                <FormikInputValue
-                  secureTextEntry
-                  placeholder="Confirm Password"
-                  name="confirmPassword"
-                  icon="lock"
-                />
-                <View style={styles.middle}>
-                  <Button onPress={handleSubmit} mode="contained">
-                    Register
-                  </Button>
+          <Formik
+            validationSchema={registrationValidationSchema}
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+          >
+            {({ handleSubmit }) => (
+              <>
+                <View style={styles.form}>
+                  <Text variant="headlineSmall" style={{ textAlign: "center" }}>
+                    {" "}
+                    Create an account{" "}
+                  </Text>
+                  <FormikInputValue placeholder="Name" name="name" icon="account" />
+                  <FormikInputValue
+                    placeholder="Lastname"
+                    name="lastname"
+                    icon="account"
+                  />
+                  <FormikInputValue
+                    placeholder="E-mail"
+                    name="email"
+                    icon="email"
+                  />
+                  <FormikInputValue
+                    placeholder="Password"
+                    name="password"
+                    secureTextEntry
+                    icon="lock"
+                    iconRight="eye"
+                  />
+                  <FormikInputValue
+                    secureTextEntry
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    icon="lock"
+                  />
+                  <View style={styles.middle}>
+                    <Button onPress={handleSubmit} mode="contained">
+                      Register
+                    </Button>
+                  </View>
                 </View>
-              </View>
-            </>
-          )}
-        </Formik>
-        <View style={styles.end}>
-          <Text variant="labelLarge" style={{ textAlign: "center" }}>
-            {" "}
-            Or login with{" "}
-          </Text>
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <IconButton icon="facebook" size={30} />
-            <IconButton icon="google" size={30} />
-          </View>
-          <Text style={styles.footerText}>
-            Already have an account?{" "}
-            <Text style={styles.footerLink} onPress={onFooterLinkPress}>
-              LogIn
+              </>
+            )}
+          </Formik>
+          <View style={styles.end}>
+            <Text variant="labelLarge" style={{ textAlign: "center" }}>
+              {" "}
+              Or login with{" "}
             </Text>
-          </Text>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <IconButton icon="google" size={30} onPress={loginWithGoogle} />
+            </View>
+            <Text style={styles.footerText}>
+              Already have an account?{" "}
+              <Text style={styles.footerLink} onPress={onFooterLinkPress}>
+                LogIn
+              </Text>
+            </Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

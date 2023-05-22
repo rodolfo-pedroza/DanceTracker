@@ -7,15 +7,10 @@ import AppBar from './AppBar.jsx';
 import Gallery from '../pages/Gallery.jsx';
 
 
-const Main = () => {
+const Main = (navigation) => {
   return (
     <View style={{flex: 1}}>
-      <AppBar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/gallery' element={<Gallery />} />
-        <Route path='/login' element={<Login />} />
-      </Routes>
+      <AppBar navigation={navigation} />
     </View>
   );
 }

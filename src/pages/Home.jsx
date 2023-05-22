@@ -1,23 +1,31 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  ScrollView,
+} from "react-native";
 import { useAuth } from "../contexts/authContext.js";
-import { Button } from "react-native-paper";
+import { useTailwind } from "tailwind-rn";
+import { Avatar } from "react-native-paper";
+import BMICard from "../components/BMICard.jsx";
+import ActivityCard from "../components/ActivityCard.jsx";
+import CaloriesCard from "../components/CaloriesCard.jsx";
+import GoalsCard from "../components/GoalsCard.jsx";
 
 const styles = StyleSheet.create({
-    footerText: {
-        fontSize: 16,
-        color: '#2e2e2d',
-    },
-    footerLink: {
-        color: '#788eec',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
+  container: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
 });
 
 function Home({ navigation }) {
-
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
+  const tailwind = useTailwind();
   console.log(user);
 
   const onFooterLinkPress = () => {
@@ -28,24 +36,34 @@ function Home({ navigation }) {
       console.log("Error logging out:", error.message);
     }
   };
-  
-  const onFooterLinkPress2 = () => {  
-    console.log(user.displayName);
-  };
 
-  
   return (
     <>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Welcome, {user.displayName}</Text>
-          <Text styles={styles.footerText}>
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>Log Out</Text>
-          </Text>
-          {/* <Text styles={styles.footerText}>
-            <Text onPress={onFooterLinkPress2} style={styles.footerLink}>complete</Text>
-          </Text> */}
-          {/* <Button onPress={onFooterLinkPress2}>User</Button> */}
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <View style={tailwind("flex-row px-8 justify-between")}>
+            <View>
+              <Text>Bienvenido</Text>
+              <Text style={tailwind("text-lg font-bold")}>
+                {user.displayName}
+              </Text>
+            </View>
+            <View style={tailwind("justify-center")}>
+              <Avatar.Image size={30} source={{ uri: user.photoURL }} />
+            </View>
+          </View>
+          <BMICard />
+          <ActivityCard />
+          <CaloriesCard />
+          <GoalsCard />
+          <View style={tailwind("flex-1 items-center content-center")}>
+            <Text>Welcome, {user.displayName}</Text>
+            <Text style={tailwind("text-blue-600")}>
+              <Text onPress={onFooterLinkPress}>Log Out</Text>
+            </Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 }

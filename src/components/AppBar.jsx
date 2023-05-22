@@ -1,8 +1,9 @@
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Touchable } from 'react-native';
 import StyledText from './StyledText';
 import theme from "../theme";
-import { Link, useLocation } from 'react-router-native';
 import Constants from 'expo-constants';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,10 +23,10 @@ const styles = StyleSheet.create({
     },
 });
 
-const AppBarTab = ({ children, to}) => {
-
-    const { pathname } = useLocation();
-    const active = pathname  === to;
+const AppBarTab = ({ children, to }) => {
+    const navigation = useNavigation();
+    const route = useRoute();
+    const active = route.name === to;
 
     const textStyles = [
         styles.text,
@@ -33,9 +34,9 @@ const AppBarTab = ({ children, to}) => {
     ];
 
     return (
-        <Link to={to}>
+        <TouchableOpacity onPress={() => navigation.navigate(to)}>
             <StyledText style={textStyles}>{children}</StyledText>
-        </Link>
+        </TouchableOpacity>
     );
 };
 
@@ -43,9 +44,9 @@ const AppBar = () => {
     return (
         <View style={styles.container}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal style={styles.scroll}>
-                <AppBarTab to='/'>DanceTracker</AppBarTab>
+                <AppBarTab to='Home'>DanceTracker</AppBarTab>
                 <AppBarTab to='/gallery'>Gallery</AppBarTab>
-                <AppBarTab to='/login'>Sign In</AppBarTab>
+                <AppBarTab to='CompleteProfile'>Complete</AppBarTab>
             </ScrollView>
         </View>
     );

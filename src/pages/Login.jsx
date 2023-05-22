@@ -1,10 +1,21 @@
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+  KeyboardAvoidingView,
+} from "react-native";
 import { Formik } from "formik";
 import { loginValidationSchema } from "../validationSchemas/login.js";
 import FormikInputValue from "../components/FormikInputValue";
-import { Text, Button, IconButton } from "react-native-paper";
+import {
+  Text,
+  Button,
+  IconButton,
+} from "react-native-paper";
 import { useAuth } from "../contexts/authContext.js";
-import { KeyboardAvoidingView } from "react-native";
 
 const initialValues = {
   email: "",
@@ -14,7 +25,7 @@ const initialValues = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   form: {
     flex: 3,
@@ -48,7 +59,7 @@ const styles = StyleSheet.create({
 });
 
 export default function LoginPage({ navigation }) {
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, loading } = useAuth();
 
   const onFooterLinkPress = () => {
     navigation.navigate("RegistrationPage");
@@ -64,61 +75,67 @@ export default function LoginPage({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <Formik
-        validationSchema={loginValidationSchema}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
       >
-        {({ handleSubmit }) => (
-          <>
-            <View style={styles.form}>
-              <Text variant="headlineSmall" style={{ textAlign: "center" }}>
-                {" "}
-                Iniciar Sesión{" "}
-              </Text>
-              <FormikInputValue
-                placeholder="E-mail"
-                name="email"
-                icon="email"
-              />
-              <FormikInputValue
-                placeholder="Password"
-                name="password"
-                secureTextEntry
-                icon="lock"
-                iconRight="eye"
-              />
-              <Text variant="labelLarge" style={{ textAlign: "center" }}>
-                {" "}
-                Forgot password?{" "}
-              </Text>
-              <View style={styles.middle}>
-                <Button onPress={handleSubmit} mode="contained">
-                  {" "}
-                  Sign in{" "}
-                </Button>
-              </View>
+        <>
+          <Formik
+            validationSchema={loginValidationSchema}
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+          >
+            {({ handleSubmit }) => (
+              <>
+                <View style={styles.form}>
+                  <Text variant="headlineSmall" style={{ textAlign: "center" }}>
+                    {" "}
+                    Iniciar Sesión{" "}
+                  </Text>
+                  <FormikInputValue
+                    placeholder="E-mail"
+                    name="email"
+                    icon="email"
+                  />
+                  <FormikInputValue
+                    placeholder="Password"
+                    name="password"
+                    secureTextEntry
+                    icon="lock"
+                    iconRight="eye"
+                  />
+                  <Text variant="labelLarge" style={{ textAlign: "center" }}>
+                    {" "}
+                    Forgot password?{" "}
+                  </Text>
+                  <View style={styles.middle}>
+                    <Button onPress={handleSubmit} mode="contained">
+                      {" "}
+                      Sign in{" "}
+                    </Button>
+                  </View>
+                </View>
+              </>
+            )}
+          </Formik>
+          <View style={styles.end}>
+            <Text variant="labelLarge" style={{ textAlign: "center" }}>
+              {" "}
+              Or sign in with{" "}
+            </Text>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <IconButton icon="google" size={30} onPress={loginWithGoogle} />
             </View>
-          </>
-        )}
-      </Formik>
-      <View style={styles.end}>
-        <Text variant="labelLarge" style={{ textAlign: "center" }}>
-          {" "}
-          Or sign in with{" "}
-        </Text>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <IconButton icon="facebook" size={30} onPress={loginWithGoogle} />
-          <IconButton icon="google" size={30} />
-        </View>
-        <Text style={styles.footerText}>
-          Don't have an account?{" "}
-          <Text style={styles.footerLink} onPress={onFooterLinkPress}>
-            Sign Up
-          </Text>
-        </Text>
-      </View>
-    </KeyboardAvoidingView>
+            <Text style={styles.footerText}>
+              Don't have an account?{" "}
+              <Text style={styles.footerLink} onPress={onFooterLinkPress}>
+                Sign Up
+              </Text>
+            </Text>
+          </View>
+        </>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

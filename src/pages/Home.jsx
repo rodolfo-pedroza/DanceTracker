@@ -15,6 +15,7 @@ import BMICard from "../components/BMICard.jsx";
 import ActivityCard from "../components/ActivityCard.jsx";
 import CaloriesCard from "../components/CaloriesCard.jsx";
 import GoalsCard from "../components/GoalsCard.jsx";
+import ActivitiesList from "../components/ActivitiesList.jsx";
 
 const styles = StyleSheet.create({
   container: {
@@ -23,10 +24,26 @@ const styles = StyleSheet.create({
   },
 });
 
+
 function Home({ navigation }) {
   const { user, logout, loading } = useAuth();
   const tailwind = useTailwind();
   console.log(user);
+
+  const activities = [  
+  {
+    name: "Caminar", duration: "1h", calories: "200 kcal",
+  },
+  {
+    name: "Correr", duration: "30 min", calories: "300 kcal",
+  },
+  {
+    name: "Ciclismo", duration: "1h", calories: "500 kcal",
+  },
+  {
+    name: "Natación", duration: "1h", calories: "300 kcal",
+  },
+];
 
   const onFooterLinkPress = () => {
     try {
@@ -56,7 +73,9 @@ function Home({ navigation }) {
           <ActivityCard />
           <CaloriesCard />
           <GoalsCard />
-          <View style={tailwind("flex-1 items-center content-center")}>
+          <Text style={tailwind("text-lg font-bold px-8")}>Última actividad</Text>
+          <ActivitiesList activities={activities} />
+          <View style={tailwind("items-center content-center")}>
             <Text>Welcome, {user.displayName}</Text>
             <Text style={tailwind("text-blue-600")}>
               <Text onPress={onFooterLinkPress}>Log Out</Text>

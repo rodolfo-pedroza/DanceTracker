@@ -1,9 +1,9 @@
-import { View, StyleSheet, ScrollView, Touchable } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import StyledText from './StyledText';
 import theme from "../theme";
 import Constants from 'expo-constants';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {

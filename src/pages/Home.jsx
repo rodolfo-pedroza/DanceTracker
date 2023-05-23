@@ -7,6 +7,7 @@ import {
   View,
   Platform,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { useAuth } from "../contexts/authContext.js";
 import { useTailwind } from "tailwind-rn";
@@ -45,13 +46,8 @@ function Home({ navigation }) {
   },
 ];
 
-  const onFooterLinkPress = () => {
-    try {
-      logout();
-      console.log("User logged out successfully");
-    } catch (error) {
-      console.log("Error logging out:", error.message);
-    }
+  const goalsOnPress = () => {
+    navigation.navigate("UserDataPage");
   };
 
   return (
@@ -65,22 +61,18 @@ function Home({ navigation }) {
                 {user.displayName}
               </Text>
             </View>
-            <View style={tailwind("justify-center")}>
-              <Avatar.Image size={30} source={{ uri: user.photoURL }} />
+            <TouchableOpacity style={tailwind("justify-center")} onPress={() => navigation.navigate("ProfilePage")}>
+            <View  >
+              <Avatar.Image size={30} source={{ uri: user.photoURL }}/>
             </View>
+            </TouchableOpacity>
           </View>
           <BMICard />
           <ActivityCard />
           <CaloriesCard />
-          <GoalsCard />
+          <GoalsCard icon='plus' onIconPress={goalsOnPress}/>
           <Text style={tailwind("text-lg font-bold px-8")}>Última actividad</Text>
           <ActivitiesList activities={activities} />
-          <View style={tailwind("items-center content-center")}>
-            <Text>Welcome, {user.displayName}</Text>
-            <Text style={tailwind("text-blue-600")}>
-              <Text onPress={onFooterLinkPress}>Log Out</Text>
-            </Text>
-          </View>
         </ScrollView>
       </SafeAreaView>
     </>

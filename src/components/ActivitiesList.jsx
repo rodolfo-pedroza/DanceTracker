@@ -5,7 +5,6 @@ import { useTailwind } from "tailwind-rn";
 
 function LastActivitiesCard({ activity }) {
   const tailwind = useTailwind();
-  console.log(activity);
 
   return (
     <Card style={tailwind("px-4 mx-8 mt-4 rounded-3xl bg-white")}>
@@ -26,7 +25,6 @@ function LastActivitiesCard({ activity }) {
 }
 
 function ActivitiesList ({activities}) {
-  console.log(activities);
   return (
     <View>
       {activities.map((activity, index) => (

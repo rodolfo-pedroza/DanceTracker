@@ -6,7 +6,7 @@ import { useTailwind } from "tailwind-rn";
 const OthersCard = () => {
   const tailwind = useTailwind();
   return (
-    <Card style={tailwind("mt-4 mx-8 p-4 rounded-3xl bg-white")}>
+    <Card style={tailwind("mt-4 mx-8 p-4 rounded-3xl bg-white mb-4")}>
       <Text style={tailwind("text-xl font-bold px-4")}>Otros</Text>
       <View style={tailwind("flex")}>
         <View style={tailwind("flex-row justify-between items-center")}>

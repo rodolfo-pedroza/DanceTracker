@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from "react-native-vector-icons";
 import theme from "../theme";
 import FoodTracker from "../pages/FoodTracker";
 import FitnessTracker from "../pages/FitnessTracker";
+import ProfilePage from "../pages/ProfilePage";
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -49,7 +50,7 @@ const AutenticatedRoutes = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Tracker"
         component={FitnessTracker}
         options={{
@@ -58,10 +59,10 @@ const AutenticatedRoutes = () => {
             <MaterialCommunityIcons name="chart-arc" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="CompleteProfile"
-        component={CompleteProfile}
+        name="Profile"
+        component={ProfilePage}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (

@@ -5,6 +5,8 @@ import { useAuth } from '../contexts/authContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import Profile from '../pages/ProfilePage';
 import UserDataPage from '../pages/UserDataPage';
+import DanceRoutines from '../pages/DanceRoutines';
+import RoutinePage from '../pages/RoutinePage';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +44,32 @@ function CombinedNavigator() {
                         fontWeight: 'bold',
                         textAlign: 'center',
                     }
+                }}
+            />
+            <Stack.Screen
+                name='DanceRoutinesPage'
+                component={DanceRoutines}
+                options={{
+                    title: 'Rutinas de baile',
+                    headerTitleAlign: 'center',
+                    headerStyle: {
+                        backgroundColor: 'white',
+                    },
+                    headerTintColor: 'black',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                    }
+                }}
+            />
+            <Stack.Screen
+                name='RoutinePage'
+                component={RoutinePage}
+                options={{
+                    title: null,
+                    headerStyle: {
+                        backgroundColor: '#bfdbfe',
+                    },
                 }}
             />
         </Stack.Navigator>

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import VideoPlayer from "../components/VideoPlayer";
 import { IconButton } from "react-native-paper";
+import { useAuth } from "../contexts/authContext";
+import VideoPlayerControls from "../components/VideoPlayerControls";
 
 const styles = StyleSheet.create({
   roundedTop: {
@@ -12,9 +14,12 @@ const styles = StyleSheet.create({
 });
 
 const RoutinePage = ({ route }) => {
-  const video = React.useRef(null);
-  const [status, setStatus] = React.useState({});
+  const video = useRef(null);
+  const [status, setStatus] = useState({});
+  const { authToken } = useAuth();
+  const [userData, setUserData] = useState({});
 
+  // console.log("authToken", authToken);
   const togglePlayBack = async () => {
     if (!video.current) {
       console.log("no video");
@@ -27,15 +32,16 @@ const RoutinePage = ({ route }) => {
       await video.current.playAsync();
     }
   };
-  const { thumbnail, index } = route.params;
+  const { routine } = route.params;
 
   const tailwind = useTailwind();
+  const className = `Clase ${routine.rithm} ${routine.classId}`;
   return (
     <View style={tailwind("flex-1 justify-between")}>
       <View style={tailwind("flex-1 bg-blue-200 px-6", { zIndex: 1 })}>
-        <View style={tailwind("bg-blue-100 py-12 rounded-full")}>
+        <View style={tailwind("bg-blue-100 py-8 rounded-full")}>
           <VideoPlayer
-            videoId={thumbnail.videoId}
+            videoId={routine.videoId}
             onTogglePlayback={togglePlayBack}
             videoRef={video}
             setStatus={setStatus}
@@ -46,14 +52,12 @@ const RoutinePage = ({ route }) => {
         style={[
           tailwind("flex-1 bg-white"),
           styles.roundedTop,
-          { zIndex: 2, marginTop: -100 },
+          { zIndex: 2, marginTop: -200 },
         ]}
       >
         <View style={tailwind("flex-1 px-8 py-4")}>
           <View style={tailwind("flex-row justify-between items-center")}>
-            <Text style={tailwind("text-xl font-bold ")}>
-              Clase {thumbnail.rithm} {index + 1}
-            </Text>
+            <Text style={tailwind("text-xl font-bold ")}>{className}</Text>
             <IconButton
               icon="heart-outline"
               iconColor="red"
@@ -92,17 +96,14 @@ const RoutinePage = ({ route }) => {
           <View style={tailwind("my-2")}>
             <Text style={tailwind("text-lg font-bold my-2")}>Descripción </Text>
             <Text style={tailwind("text-sm text-gray-500")}>
-              {thumbnail.description}
+              {routine.description}
             </Text>
           </View>
-          <TouchableOpacity
-            onPress={() => togglePlayBack()}
-            style={tailwind("flex items-center p-4 rounded-full bg-indigo-300")}
-          >
-            <Text style={tailwind("text-lg font-bold text-white")}>
-              {status.isPlaying ? "Pausar" : "Comenzar"}
-            </Text>
-          </TouchableOpacity>
+          <VideoPlayerControls
+            togglePlayBack={togglePlayBack}
+            status={status}
+            className={className}
+          />
         </View>
       </View>
     </View>

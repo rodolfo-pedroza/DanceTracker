@@ -19,7 +19,7 @@ const ProfilePage = () => {
   const tailwind = useTailwind();
   const { user, logout } = useAuth();
   return (
-    <ScrollView style={styles.container} >
+    <ScrollView >
       <View style={tailwind("flex-row mt-4 px-8 items-center")}>
         <View>
           <Avatar.Image size={45} source={{ uri: user.photoURL }} />

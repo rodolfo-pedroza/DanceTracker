@@ -5,6 +5,7 @@ import VideoPlayer from "../components/VideoPlayer";
 import { IconButton } from "react-native-paper";
 import { useAuth } from "../contexts/authContext";
 import VideoPlayerControls from "../components/VideoPlayerControls";
+import { descriptions } from "../data/constants";
 
 const styles = StyleSheet.create({
   roundedTop: {
@@ -32,16 +33,16 @@ const RoutinePage = ({ route }) => {
       await video.current.playAsync();
     }
   };
-  const { routine } = route.params;
+  const clase  = route.params.video;
+  const description = descriptions.find((item) => item.name === clase.rhythm);
 
   const tailwind = useTailwind();
-  const className = `Clase ${routine.rithm} ${routine.classId}`;
   return (
     <View style={tailwind("flex-1 justify-between")}>
       <View style={tailwind("flex-1 bg-blue-200 px-6", { zIndex: 1 })}>
         <View style={tailwind("bg-blue-100 py-8 rounded-full")}>
           <VideoPlayer
-            videoId={routine.videoId}
+            videoId={clase.video_url}
             onTogglePlayback={togglePlayBack}
             videoRef={video}
             setStatus={setStatus}
@@ -57,7 +58,7 @@ const RoutinePage = ({ route }) => {
       >
         <View style={tailwind("flex-1 px-8 py-4")}>
           <View style={tailwind("flex-row justify-between items-center")}>
-            <Text style={tailwind("text-xl font-bold ")}>{className}</Text>
+            <Text style={tailwind("text-xl font-bold ")}>{clase.title}</Text>
             <IconButton
               icon="heart-outline"
               iconColor="red"
@@ -96,13 +97,13 @@ const RoutinePage = ({ route }) => {
           <View style={tailwind("my-2")}>
             <Text style={tailwind("text-lg font-bold my-2")}>Descripción </Text>
             <Text style={tailwind("text-sm text-gray-500")}>
-              {routine.description}
+              {description.description}
             </Text>
           </View>
           <VideoPlayerControls
             togglePlayBack={togglePlayBack}
             status={status}
-            className={className}
+            className={clase.title}
           />
         </View>
       </View>

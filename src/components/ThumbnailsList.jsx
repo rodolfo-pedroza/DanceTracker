@@ -1,7 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';  
-import { View, Text, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
-import { useTailwind } from 'tailwind-rn';
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  StyleSheet,
+} from "react-native";
+import { useTailwind } from "tailwind-rn";
+import useFetchVideos from "../hooks/useFetchVideos";
 
 const styles = StyleSheet.create({
   card: {
@@ -14,31 +21,74 @@ const styles = StyleSheet.create({
   },
 });
 
-const ThumbnailList = ({categoria}) => {
-    const tailwind = useTailwind();
-    const navigation = useNavigation();
-    return (
+const ThumbnailList = ({ categoria, selectedLevel }) => {
+  const tailwind = useTailwind();
+  const navigation = useNavigation();
+  const { videos, loading, error } = useFetchVideos();
+
+  const videosByCategory = videos && videos[categoria.name];
+  const filteredVideos = videosByCategory ? videosByCategory.filter(
+    (video) => video.difficulty === selectedLevel
+  ) : [];
+
+  const getRandomIndex = () => {
+    return Math.floor(Math.random() * categoria.thumbnails.length);
+  };
+
+  if (loading) return (
+    <Text style={tailwind("flex-1 items-center justify-center text-center text-xl mt-4")}>
+        Cargando...
+    </Text>
+  )
+
+  if (error) {
+    return <Text>Error fetching videos {error}</Text>;
+  }
+
+  return (
+    <>
+      {videos && (
         <>
-            {categoria.exercises.map((routine, index) => (
-                <TouchableOpacity 
-                    style={tailwind('flex mt-4 mx-8 rounded-3xl bg-slate-700')}
-                    key={routine.videoId}
-                    onPress={() => navigation.navigate('RoutinePage', { routine })}
+          {filteredVideos.length > 0 ? (
+            filteredVideos.map((video, index) => (
+              <TouchableOpacity
+                key={video.routine_id}
+                style={tailwind(
+                  "flex mt-4 mx-8 rounded-3xl bg-slate-700"
+                )}
+                onPress={() => navigation.navigate("RoutinePage", {video})}
+              >
+                <ImageBackground
+                  source={{
+                    uri: categoria.thumbnails[getRandomIndex()],
+                  }}
+                  style={styles.card}
                 >
-                    <ImageBackground
-                        source={{ uri: routine.thumbnail }} 
-                        style={styles.card}
-                    >
-                        <View style={tailwind('flex justify-center p-4 absolute bottom-0 left-0')}>
-                            <Text style={tailwind('text-white text-xl font-bold')}>{routine.rithm}</Text>
-                            <Text style={tailwind('text-white text-sm')}>Clase {index + 1}</Text>
-                        </View>
-                    </ImageBackground>
-                </TouchableOpacity>
-            ))                                
-            }
+                  <View
+                    style={tailwind(
+                      "flex justify-center p-4 absolute bottom-0 left-0"
+                    )}
+                  >
+                    <Text style={tailwind("text-white text-xl font-bold")}>
+                      {video.rhythm}
+                    </Text>
+                    <Text style={tailwind("text-white text-sm")}>
+                      {video.title}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={tailwind("flex-1 items-center justify-center text-center text-xl mt-4")}>
+                No hay rutinas para este nivel
+            </Text>
+          )}
         </>
-    );
-    }
+      )}
+    </>
+  );
+};
+
 
 export default ThumbnailList;

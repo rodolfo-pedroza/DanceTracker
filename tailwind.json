@@ -158,6 +158,11 @@
 			"width": 384
 		}
 	},
+	"w-24": {
+		"style": {
+			"width": 96
+		}
+	},
 	"flex-1": {
 		"style": {
 			"flexGrow": 1,
@@ -283,6 +288,12 @@
 		"style": {
 			"--tw-bg-opacity": 1,
 			"backgroundColor": "rgb(255 255 255 / var(--tw-bg-opacity))"
+		}
+	},
+	"bg-indigo-500": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(99 102 241 / var(--tw-bg-opacity))"
 		}
 	},
 	"p-2": {

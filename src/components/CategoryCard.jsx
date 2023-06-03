@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTailwind } from "tailwind-rn";
+import useFetchVideos from "../hooks/useFetchVideos";
 
 const styles = StyleSheet.create({
   card: {
@@ -20,19 +21,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const CategoryCard = ({ categories }) => {
+const CategoryCard = ({ images }) => {
   const navigation = useNavigation();
   const tailwind = useTailwind();
 
+  console.log("images", images);
+
   return (
     <>
-      {categories.map((categoria) => (
+      {images.map((categoria) => (
         <TouchableOpacity
           style={tailwind("flex mt-4 mx-8 rounded-full bg-white")}
           key={categoria.name}
-          onPress={() =>
-            navigation.navigate("DanceRoutinesPage", { categoria })
-          }
+          onPress={() => {
+            navigation.navigate("DanceRoutinesPage", {
+              categoria,
+            });
+          }}
         >
           <ImageBackground
             source={{ uri: categoria.backgroundImage }}
@@ -45,9 +50,6 @@ const CategoryCard = ({ categories }) => {
             >
               <Text style={tailwind("text-white text-lg font-bold")}>
                 {categoria.name}
-              </Text>
-              <Text style={tailwind("text-white text-sm")}>
-                {categoria.clases} Clases
               </Text>
             </View>
           </ImageBackground>

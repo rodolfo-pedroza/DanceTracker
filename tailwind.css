@@ -287,6 +287,11 @@
   background-color: rgb(99 102 241 / var(--tw-bg-opacity))
 }
 
+.bg-indigo-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(79 70 229 / var(--tw-bg-opacity))
+}
+
 .p-2 {
   padding: 0.5rem
 }

@@ -3,9 +3,6 @@ import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import ThumbnailList from "../components/ThumbnailsList";
 
-
-
-
 const DanceRoutines = ({ route }) => {
   const tailwind = useTailwind();
   const { categoria } = route.params;
@@ -15,7 +12,7 @@ const DanceRoutines = ({ route }) => {
   const handleLevelChange = (level) => {
     setSelectedLevel(level);
   };
-  
+
   return (
     <ScrollView style={tailwind("bg-white mb-4")}>
       <Text style={tailwind("text-2xl font-bold px-8 text-center")}>
@@ -29,7 +26,14 @@ const DanceRoutines = ({ route }) => {
           ]}
           onPress={() => handleLevelChange("beginner")}
         >
-          <Text style={tailwind("text-sm text-center")}>Principiante</Text>
+          <Text
+            style={[
+              tailwind("text-sm text-center"),
+              selectedLevel === "beginner" && tailwind("text-white"),
+            ]}
+          >
+            Principiante
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -38,7 +42,14 @@ const DanceRoutines = ({ route }) => {
           ]}
           onPress={() => handleLevelChange("normal")}
         >
-          <Text style={tailwind("text-sm text-center")}>Normal</Text>
+          <Text
+            style={[
+              tailwind("text-sm text-center"),
+              selectedLevel === "normal" && tailwind("text-white"),
+            ]}
+          >
+            Normal
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
@@ -47,10 +58,17 @@ const DanceRoutines = ({ route }) => {
           ]}
           onPress={() => handleLevelChange("advanced")}
         >
-          <Text style={tailwind("text-sm text-center")}>Avanzado</Text>
+          <Text
+            style={[
+              tailwind("text-sm text-center"),
+              selectedLevel === "advanced" && tailwind("text-white"),
+            ]}
+          >
+            Avanzado
+          </Text>
         </TouchableOpacity>
       </View>
-      <ThumbnailList categoria={categoria} selectedLevel={selectedLevel}/>
+      <ThumbnailList categoria={categoria} selectedLevel={selectedLevel} />
     </ScrollView>
   );
 };

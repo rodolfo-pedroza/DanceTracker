@@ -47,7 +47,7 @@ const RoutinePage = ({ route }) => {
   const description = descriptions.find((item) => item.name === clase.rhythm);
 
   const { isFavorite, toggleFavorite, isInitialized } = useFavoriteVideos(
-    clase.routine_id
+    clase.routine_id,
   );
 
   const handleActivityData = (data) => {

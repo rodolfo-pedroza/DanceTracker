@@ -376,6 +376,12 @@
 			"backgroundColor": "rgb(99 102 241 / var(--tw-bg-opacity))"
 		}
 	},
+	"bg-indigo-600": {
+		"style": {
+			"--tw-bg-opacity": 1,
+			"backgroundColor": "rgb(79 70 229 / var(--tw-bg-opacity))"
+		}
+	},
 	"p-2": {
 		"style": {
 			"paddingTop": 8,

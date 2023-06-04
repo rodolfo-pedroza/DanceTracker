@@ -45,7 +45,7 @@ const AutenticatedRoutes = () => {
         name="FoodTracker"
         component={FoodTracker}
         options={{
-          tabBarLabel: "FoodTracker",
+          tabBarLabel: "Alimentos",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="food-variant" color={color} size={26} />
           ),

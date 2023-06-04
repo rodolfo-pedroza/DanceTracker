@@ -108,6 +108,21 @@
 			"marginBottom": 8
 		}
 	},
+	"mr-2": {
+		"style": {
+			"marginRight": 8
+		}
+	},
+	"-ml-2": {
+		"style": {
+			"marginLeft": -8
+		}
+	},
+	"mt-8": {
+		"style": {
+			"marginTop": 32
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -126,6 +141,36 @@
 	"h-64": {
 		"style": {
 			"height": 256
+		}
+	},
+	"h-16": {
+		"style": {
+			"height": 64
+		}
+	},
+	"h-4": {
+		"style": {
+			"height": 16
+		}
+	},
+	"h-8": {
+		"style": {
+			"height": 32
+		}
+	},
+	"h-10": {
+		"style": {
+			"height": 40
+		}
+	},
+	"h-9": {
+		"style": {
+			"height": 36
+		}
+	},
+	"h-5": {
+		"style": {
+			"height": 20
 		}
 	},
 	"w-16": {
@@ -163,6 +208,36 @@
 			"width": 96
 		}
 	},
+	"w-4": {
+		"style": {
+			"width": 16
+		}
+	},
+	"w-8": {
+		"style": {
+			"width": 32
+		}
+	},
+	"w-10": {
+		"style": {
+			"width": 40
+		}
+	},
+	"w-12": {
+		"style": {
+			"width": 48
+		}
+	},
+	"w-14": {
+		"style": {
+			"width": 56
+		}
+	},
+	"w-11": {
+		"style": {
+			"width": 44
+		}
+	},
 	"flex-1": {
 		"style": {
 			"flexGrow": 1,
@@ -193,6 +268,11 @@
 	"justify-between": {
 		"style": {
 			"justifyContent": "space-between"
+		}
+	},
+	"justify-around": {
+		"style": {
+			"justifyContent": "space-around"
 		}
 	},
 	"self-center": {

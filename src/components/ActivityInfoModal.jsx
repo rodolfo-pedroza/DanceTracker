@@ -5,7 +5,7 @@ import { db } from "../firebase/config";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "../contexts/authContext";
 
-const registerActivity = async (caloriesBurned, duration, startTime, user) => {
+const registerActivity = async (caloriesBurned, duration, startTime, user, title) => {
   if (user) {
     const userId = user.uid;
     try {
@@ -14,6 +14,7 @@ const registerActivity = async (caloriesBurned, duration, startTime, user) => {
         caloriesBurned,
         duration,
         startTime,
+        title,
       });
       console.log("Document written with ID: ", activityDataRef.id);
       return true;
@@ -33,6 +34,7 @@ const ActivityInfoModal = ({
   caloriesBurned,
   duration,
   startTime,
+  title,
 }) => {
   const { user } = useAuth();
   const tailwind = useTailwind();
@@ -41,6 +43,7 @@ const ActivityInfoModal = ({
   const baseDateObj = baseDate.toISOString().split("T")[0];
   const roundedDuration = duration.toFixed(1);
 
+
   const [registered , setActivityRegistered] = useState(false);
 
   const handleRegisterActivity = async () => {
@@ -48,7 +51,8 @@ const ActivityInfoModal = ({
       caloriesBurned,
       roundedDuration,
       baseDateObj,
-      user
+      user,
+      title
     );
     if (registered ) {
       setActivityRegistered(true);
@@ -66,7 +70,7 @@ const ActivityInfoModal = ({
           Resumen de actividad
         </Text>
         <Text style={tailwind("text-center text-sm mt-2")}>
-          Durante la clase
+          Durante la {title}
         </Text>
         <Text style={tailwind("text-center text-sm mt-2")}>
           Quemaste

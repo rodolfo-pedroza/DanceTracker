@@ -4,7 +4,7 @@ import { useTailwind } from "tailwind-rn";
 import { useAuth } from "../contexts/authContext";
 import ActivityInfoModal from "./ActivityInfoModal";
 
-const VideoPlayerControls = ({ className, togglePlayBack, status }) => {
+const VideoPlayerControls = ({ title, togglePlayBack, status, onActivityData }) => {
   const tailwind = useTailwind();
   const { authToken } = useAuth();
 
@@ -18,7 +18,6 @@ const VideoPlayerControls = ({ className, togglePlayBack, status }) => {
   }, [startTime]);
 
   useEffect(() => {
-    console.log('className', className)
     if (endTime !== null) {
       collectCaloriesBurned();
     }
@@ -79,6 +78,14 @@ const VideoPlayerControls = ({ className, togglePlayBack, status }) => {
         setDuration((endTime - startTime) / 60000);
         console.log("Duration", duration);
         setCaloriesBurned(calories.value);
+
+        const activityData = {
+          caloriesBurned: calories.value,
+          duration: (endTime - startTime) / 60000,
+        };
+
+        onActivityData(activityData);
+        
       } else {
         console.log("No calories data aviailable");
       }
@@ -125,6 +132,7 @@ const VideoPlayerControls = ({ className, togglePlayBack, status }) => {
         caloriesBurned={caloriesBurned}
         duration={duration}
         startTime={startTime}
+        title={title}
         />
     </>
   );

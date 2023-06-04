@@ -8,6 +8,7 @@ import theme from "../theme";
 import FoodTracker from "../pages/FoodTracker";
 import FitnessTracker from "../pages/FitnessTracker";
 import ProfilePage from "../pages/ProfilePage";
+import FavoritesPage from "../pages/FavoritesPage";
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -34,7 +35,7 @@ const AutenticatedRoutes = () => {
         name="Gallery"
         component={Gallery}
         options={{
-          tabBarLabel: "Gallery",
+          tabBarLabel: "Galeria",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="view-gallery-outline" color={color} size={26} />
           ),
@@ -50,21 +51,21 @@ const AutenticatedRoutes = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Tracker"
-        component={FitnessTracker}
+      <Tab.Screen
+        name="Favoritos"
+        component={FavoritesPage}
         options={{
-          tabBarLabel: "Tracker",
+          tabBarLabel: "Favoritos",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="chart-arc" color={color} size={26} />
+            <MaterialCommunityIcons name="heart" color={color} size={26} />
           ),
         }}
-      /> */}
+      />
       <Tab.Screen
         name="Profile"
         component={ProfilePage}
         options={{
-          tabBarLabel: "Profile",
+          tabBarLabel: "Perfil",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),

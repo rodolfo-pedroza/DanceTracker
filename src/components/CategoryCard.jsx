@@ -25,8 +25,6 @@ const CategoryCard = ({ images }) => {
   const navigation = useNavigation();
   const tailwind = useTailwind();
 
-  console.log("images", images);
-
   return (
     <>
       {images.map((categoria) => (

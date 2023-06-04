@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 const useFetchVideos = () => {
@@ -31,6 +31,7 @@ const useFetchVideos = () => {
               difficulty: routineData.difficulty,
               duration: routineData.duration,
               video_url: routineData.video_id,
+              creator: routineData.creator,
             };
 
             danceVideos.push(video);

@@ -79,6 +79,18 @@
   margin-bottom: 0.5rem
 }
 
+.mr-2 {
+  margin-right: 0.5rem
+}
+
+.-ml-2 {
+  margin-left: -0.5rem
+}
+
+.mt-8 {
+  margin-top: 2rem
+}
+
 .flex {
   display: flex
 }
@@ -93,6 +105,30 @@
 
 .h-64 {
   height: 16rem
+}
+
+.h-16 {
+  height: 4rem
+}
+
+.h-4 {
+  height: 1rem
+}
+
+.h-8 {
+  height: 2rem
+}
+
+.h-10 {
+  height: 2.5rem
+}
+
+.h-9 {
+  height: 2.25rem
+}
+
+.h-5 {
+  height: 1.25rem
 }
 
 .w-16 {
@@ -123,6 +159,30 @@
   width: 6rem
 }
 
+.w-4 {
+  width: 1rem
+}
+
+.w-8 {
+  width: 2rem
+}
+
+.w-10 {
+  width: 2.5rem
+}
+
+.w-12 {
+  width: 3rem
+}
+
+.w-14 {
+  width: 3.5rem
+}
+
+.w-11 {
+  width: 2.75rem
+}
+
 .flex-1 {
   flex: 1 1 0%
 }
@@ -145,6 +205,10 @@
 
 .justify-between {
   justify-content: space-between
+}
+
+.justify-around {
+  justify-content: space-around
 }
 
 .self-center {

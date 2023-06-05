@@ -13,18 +13,14 @@ function BmiCard(  ) {
   const { user } = useAuth();
 
   const { userData, loading, fetchUserData } = useFetchUserData();
-  const { bmi, classification, fetchBmi } = useFetchBmi(userData?.weight, userData?.height);
+
+  console.log('userData', userData);
 
   
   useEffect(() => {
     fetchUserData();
   }, [user]);
   
-  useEffect(() => {
-    if (!loading && userData) {
-      fetchBmi();      
-    }
-  }, [loading, userData]);
   
   const navigateToProfilePage = () => {
     navigation.navigate("UserDataPage");
@@ -42,7 +38,7 @@ function BmiCard(  ) {
           {userData ? (
             <>
               <Text style={tailwind('px-4 mb-2 text-base ')}>Tienes un peso 
-                <Text style={tailwind('text-indigo-400 text-lg font-bold')}> {classification} </Text>
+                <Text style={tailwind('text-indigo-400 text-lg font-bold')}> {userData.classification} </Text>
               </Text>
               <Text style={tailwind('px-4 mb-2 text-sm')}>{userData.weight} kg </Text>
               <View style={tailwind()}>

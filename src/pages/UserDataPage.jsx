@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Button,
+  Platform,
 } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import GoalsCard from "../components/GoalsCard";
@@ -17,8 +18,9 @@ import { db } from "../firebase/config";
 import DataUpdatedModal from "../components/DataUpdatedModal";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { differenceInYears } from "date-fns";
+import useFetchBmiAndBmr from "../hooks/useFetchBmiAndBmr";
 
-const ProfilePage = (navigation) => {
+const ProfilePage = ({ navigation }) => {
   const { user } = useAuth();
   const tailwind = useTailwind();
 
@@ -29,7 +31,71 @@ const ProfilePage = (navigation) => {
   const [genderValue, setGenderValue] = useState("");
 
   const [isDatePickerVisible, setDatePickerVisible] = useState(false); // State to control date picker visibility
-  const [selectedDate, setSelectedDate] = useState(null); // State to store selected date
+  const [selectedDate, setSelectedDate] = useState(new Date()); // State to store selected date
+
+  const [age, setAge] = useState(null); // State to store selected date
+
+  const [userData, setUserData] = useState({
+    age: null,
+    bmi: null,
+    bmr: null,
+    classification: null,
+    dateOfBirth: null,
+    genre: null,
+    goalWeight: null,
+    height: null,
+    weight: null,
+  });
+
+  const { bmi, bmr, classification, fetchData } = useFetchBmiAndBmr(
+    weightValue,
+    heightValue,
+    age,
+    genderValue
+  );
+
+  useEffect(() => {
+    setUserData((prevState) => ({
+      ...prevState,
+      bmi: bmi,
+      bmr: bmr,
+      classification: classification,
+    }));
+  }, [bmi, bmr, classification]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      setAge(calculateAge());
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
+    setUserData((prevState) => ({
+      ...prevState,
+      weight: weightValue,
+    }));
+  }, [weightValue]);
+
+  useEffect(() => {
+    setUserData((prevState) => ({
+      ...prevState,
+      height: heightValue,
+    }));
+  }, [heightValue]);
+
+  useEffect(() => {
+    setUserData((prevState) => ({
+      ...prevState,
+      goalWeight: goalWeightValue,
+    }));
+  }, [goalWeightValue]);
+
+  useEffect(() => {
+    setUserData((prevState) => ({
+      ...prevState,
+      genre: genderValue,
+    }));
+  }, [genderValue]);
 
   const handleDateSelect = (event, date) => {
     if (date) {
@@ -51,14 +117,17 @@ const ProfilePage = (navigation) => {
       const userId = user.uid;
       try {
         const profileDataRef = collection(db, `userData/${userId}/profileData`);
-        const age = calculateAge();
-        const newData = {
-          ...data,
+        // setAge(calculateAge());
+        // setSelectedDate(selectedDate ? selectedDate.toDateString() : null);
+        setUserData((prevUserData) => ({
+          ...prevUserData,
           age: age,
           genre: genderValue,
           dateOfBirth: selectedDate ? selectedDate.toDateString() : null,
-        };
-        await addDoc(profileDataRef, newData);
+        }));
+        await fetchData();
+
+        await addDoc(profileDataRef, userData);
         console.log("Document written with ID: ", profileDataRef.id);
         setDataUpdatedModalVisible(true);
       } catch (e) {
@@ -105,21 +174,40 @@ const ProfilePage = (navigation) => {
           </View>
         </View>
         {/* <View style={tailwind("flex-row justify-between items-center py-3")}>
-          <View style={tailwind("w-72")}>
-            <TextInput
-              placeholder="Peso a alcanzar"
-              keyboardType="numeric"
-              value={goalWeightValue}
-              onChangeText={(text) => setGoalWeightValue(text)}
-              mode="flat"
-              left={<TextInput.Icon icon="scale-bathroom" />}
-              style={tailwind("bg-gray-200 rounded-2xl")}
+            <View style={tailwind("w-72")}>
+              <TextInput
+                placeholder="Peso a alcanzar"
+                keyboardType="numeric"
+                value={goalWeightValue}
+                onChangeText={(text) => setGoalWeightValue(text)}
+                mode="flat"
+                left={<TextInput.Icon icon="scale-bathroom" />}
+                style={tailwind("bg-gray-200 rounded-2xl")}
+              />
+            </View>
+            <View style={tailwind("bg-blue-300  p-3.5 rounded-2xl")}>
+              <Text style={tailwind("text-sm text-white")}>KG</Text>
+            </View>
+          </View> */}
+        <View style={tailwind("flex-row justify-around items-center py-3")}>
+          <View style={tailwind("p-2 -ml-4 bg-white rounded-lg w-52")}>
+            <Text style={tailwind("text-lg ")}>Fecha de nacimiento:</Text>
+          </View>
+          <TouchableOpacity onPress={() => setDatePickerVisible(true)}>
+            <Text>
+              {selectedDate ? selectedDate.toDateString() : "Seleccionar "}
+            </Text>
+          </TouchableOpacity>
+          {isDatePickerVisible && (
+            <DateTimePicker
+              value={selectedDate || new Date()}
+              mode="date"
+              display="default"
+              onChange={handleDateSelect}
             />
-          </View>
-          <View style={tailwind("bg-blue-300  p-3.5 rounded-2xl")}>
-            <Text style={tailwind("text-sm text-white")}>KG</Text>
-          </View>
-        </View> */}
+          )}
+        </View>
+
         <View style={tailwind("flex-row justify-around items-center py-3")}>
           <View
             style={tailwind("flex-1 flex-row justify-around items-center ")}
@@ -157,38 +245,12 @@ const ProfilePage = (navigation) => {
             </View>
           </View>
         </View>
-        <View style={tailwind("flex-row justify-around items-center py-3")}>
-          <View style={tailwind("p-2 -ml-4 bg-white rounded-lg w-52")}>
-            <Text style={tailwind("text-lg ")}>Fecha de nacimiento:</Text>
-          </View>
-          <TouchableOpacity onPress={() => setDatePickerVisible(true)}>
-            <Text>
-              {selectedDate ? selectedDate.toDateString() : "Seleccionar "}
-            </Text>
-          </TouchableOpacity>
-          {isDatePickerVisible && (
-            <DateTimePicker
-              value={selectedDate || new Date()}
-              mode="date"
-              display="default"
-              onChange={handleDateSelect}
-            />
-          )}
-        </View>
       </View>
       <SleepCard />
       <TouchableOpacity
         style={tailwind("rounded-full p-5 mx-8 mt-12 bg-indigo-300")}
         onPress={() =>
-          handleFormSubmit(
-            {
-              weight: weightValue,
-              height: heightValue,
-              goalWeight: goalWeightValue,
-            },
-            user,
-            setDataUpdatedModalVisible
-          )
+          handleFormSubmit(userData, user, setDataUpdatedModalVisible)
         }
       >
         <Text style={tailwind("text-lg text-white text-center font-bold")}>

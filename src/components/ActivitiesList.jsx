@@ -2,10 +2,10 @@ import React from "react";
 import { Image, View, Text } from "react-native";
 import { Card} from "react-native-paper";
 import { useTailwind } from "tailwind-rn";
+import useFetchActivityData from "../hooks/useFetchActivityData";
 
 function LastActivitiesCard({ activity }) {
-  const tailwind = useTailwind();
-
+    const tailwind = useTailwind();
   return (
     <Card style={tailwind("px-4 mx-8 mt-4 rounded-3xl bg-white")}>
       <Card.Content>
@@ -14,9 +14,10 @@ function LastActivitiesCard({ activity }) {
             <Image source={require('../assets/images/activityIcon.png')}/>
           </View>
           <View style={tailwind("pl-4")}>
-            <Text style={tailwind("text-base font-bold")}>{activity.name}</Text>
-            <Text style={tailwind("text-sm text-stone-700")}>{activity.duration}</Text>
-            <Text style={tailwind("text-sm text-stone-700")}>{activity.calories}</Text>
+            <Text style={tailwind("text-base font-bold")}>{activity.title}</Text>
+            {/* <Text style={tailwind("text-sm text-stone-700")}>Fecha: {activity.startTime}</Text> */}
+            <Text style={tailwind("text-sm text-stone-700")}>Duración: {activity.duration}</Text>
+            <Text style={tailwind("text-sm text-stone-700")}>Calorias quemadas: {activity.caloriesBurned}</Text>
           </View>
         </View>          
       </Card.Content>
@@ -24,11 +25,22 @@ function LastActivitiesCard({ activity }) {
   );
 }
 
-function ActivitiesList ({activities}) {
+function ActivitiesList ({}) {
+  const tailwind = useTailwind();
+  const {activityData, loading } = useFetchActivityData();
+
+  if (loading) {
+    return (
+      <View style={tailwind("flex-1 justify-center items-center")}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+  
   return (
     <View>
-      {activities.map((activity, index) => (
-        <LastActivitiesCard key={index} activity={activity} />
+      {activityData.map((activity) => (
+        <LastActivitiesCard key={activity.id} activity={activity} />
       ))}
     </View>
   );

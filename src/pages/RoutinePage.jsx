@@ -54,7 +54,7 @@ const RoutinePage = ({ route }) => {
     setCaloriesBurned(data.caloriesBurned);
     setDuration(data.duration);
   };
-  console.log("description", clase);
+  // console.log("description", clase);
 
   const tailwind = useTailwind();
   return (

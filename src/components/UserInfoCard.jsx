@@ -10,6 +10,7 @@ const UserInfoCard = () => {
   const { user } = useAuth();
 
   const { userData, loading, fetchUserData } = useFetchUserData();
+  console.log("userData", userData);
 
   useEffect(() => {
     fetchUserData();
@@ -54,7 +55,7 @@ const UserInfoCard = () => {
                       "text-base font-bold text-indigo-400 text-center"
                     )}
                   >
-                    {user.birthday} años
+                    {userData.age} años
                   </Text>
                   <Text style={tailwind("text-sm text-center")}>Edad</Text>
                 </View>

@@ -31,7 +31,7 @@ function BmiCard(  ) {
   };
 
   return (
-    <Card style={tailwind("px-4 mx-8 mt-4 rounded-3xl bg-indigo-100")}>
+    <Card style={tailwind("px-4 mx-8 my-4 rounded-3xl bg-indigo-100")}>
       <Card.Title title="IMC (Índice de masa corporal)" />
       {loading ? (
         <View style={tailwind('px-4 text-lg font-bold')}>

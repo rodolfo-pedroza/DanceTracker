@@ -43,7 +43,6 @@ const RoutinePage = ({ route }) => {
     }
   };
   const clase = route.params.video;
-  // console.log("clase routine page", clase.title);
   const description = descriptions.find((item) => item.name === clase.rhythm);
 
   const { isFavorite, toggleFavorite, isInitialized } = useFavoriteVideos(
@@ -62,7 +61,7 @@ const RoutinePage = ({ route }) => {
       <View style={tailwind("flex-1 bg-blue-200 px-6", { zIndex: 1 })}>
         <View style={tailwind("bg-blue-100 py-8 rounded-full")}>
           <VideoPlayer
-            videoId={clase.video_url}
+            videoId={clase.video_url ? clase.video_url : clase.video_id}
             onTogglePlayback={togglePlayBack}
             videoRef={video}
             setStatus={setStatus}

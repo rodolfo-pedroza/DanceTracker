@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useEffect, useMemo } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { auth } from "../firebase/config";
 import {
   GoogleAuthProvider,
@@ -38,13 +45,6 @@ export const AuthProvider = ({ children, navigation }) => {
     return unsubsribe;
   }, []);
 
-  // useEffect(() => {
-  //   if (response?.type === "success") {
-  //     const { access_token } = response.params;
-  //     setAuthToken(access_token);
-  //   }
-  // }, [response]);
-
   const getFitbitAuthUrl = () => {
     const authUrl = "https://www.fitbit.com/oauth2/authorize";
     const clientId = "23QWSK";
@@ -77,7 +77,8 @@ export const AuthProvider = ({ children, navigation }) => {
     return `${authUrl}?${queryParams}`;
   };
 
-  const handleFitbitAuth = async () => {
+  const handleFitbitAuth = useCallback(async () => {
+    console.log("handleFitbitAuth called");
     const authUrl = getFitbitAuthUrl();
     const result = await startAsync({ authUrl });
 
@@ -86,7 +87,7 @@ export const AuthProvider = ({ children, navigation }) => {
     }
     console.log("result", result);
     console.log("authToken", authToken);
-  };
+  }, []);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
@@ -154,10 +155,12 @@ export const AuthProvider = ({ children, navigation }) => {
     }
   };
 
+  const memoizedUser = useMemo(() => user, [user]);
+
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: memoizedUser,
         login,
         register,
         logout,

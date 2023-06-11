@@ -31,15 +31,12 @@ const ProfilePage = ({ navigation }) => {
   const [genderValue, setGenderValue] = useState("");
 
   const [isDatePickerVisible, setDatePickerVisible] = useState(false); // State to control date picker visibility
-  const [selectedDate, setSelectedDate] = useState(new Date()); // State to store selected date
+  const [selectedDate, setSelectedDate] = useState(); // State to store selected date
 
   const [age, setAge] = useState(null); // State to store selected date
 
   const [userData, setUserData] = useState({
     age: null,
-    bmi: null,
-    bmr: null,
-    classification: null,
     dateOfBirth: null,
     genre: null,
     goalWeight: null,
@@ -51,17 +48,17 @@ const ProfilePage = ({ navigation }) => {
     weightValue,
     heightValue,
     age,
-    genderValue
+    genderValue,
+    (newBmi, newBmr, newClassification) => {
+      setUserData((prevState) => ({
+        ...prevState,
+        bmi: newBmi,
+        bmr: newBmr,
+        classification: newClassification,
+      }));
+    }
   );
 
-  useEffect(() => {
-    setUserData((prevState) => ({
-      ...prevState,
-      bmi: bmi,
-      bmr: bmr,
-      classification: classification,
-    }));
-  }, [bmi, bmr, classification]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -112,26 +109,48 @@ const ProfilePage = ({ navigation }) => {
     return null;
   };
 
-  const handleFormSubmit = async (data, user, setDataUpdatedModalVisible) => {
+  const handleFormSubmit = async (
+    weight,
+    height,
+    goalWeight,
+    age,
+    gender,
+    selectedDate,
+    user,
+    setDataUpdatedModalVisible
+  ) => {
     if (user) {
       const userId = user.uid;
-      try {
-        const profileDataRef = collection(db, `userData/${userId}/profileData`);
-        // setAge(calculateAge());
-        // setSelectedDate(selectedDate ? selectedDate.toDateString() : null);
-        setUserData((prevUserData) => ({
-          ...prevUserData,
-          age: age,
-          genre: genderValue,
-          dateOfBirth: selectedDate ? selectedDate.toDateString() : null,
-        }));
-        await fetchData();
+      fetchData();
+      // Check if bmi, bmr, and classification have values
+      if (bmi !== null && bmr !== null && classification !== null) {
+        try {
+          const profileDataRef = collection(
+            db,
+            `userData/${userId}/profileData`
+          );
+          const updatedUserData = {
+            weight,
+            height,
+            goalWeight,
+            age,
+            genre: gender,
+            bmi,
+            bmr,
+            classification,
+            dateOfBirth: selectedDate ? selectedDate.toDateString() : null,
+            createdAt: new Date().toDateString(),
+          };
 
-        await addDoc(profileDataRef, userData);
-        console.log("Document written with ID: ", profileDataRef.id);
-        setDataUpdatedModalVisible(true);
-      } catch (e) {
-        console.error("Error adding document: ", e);
+          await addDoc(profileDataRef, updatedUserData);
+          console.log("Document written with ID: ", profileDataRef.id);
+          setDataUpdatedModalVisible(true);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      } else {
+        console.log("BMI, BMR, or Classification are missing.");
+        console.log("BMI: ", bmi);
       }
     } else {
       console.log("No user is logged in");
@@ -250,7 +269,16 @@ const ProfilePage = ({ navigation }) => {
       <TouchableOpacity
         style={tailwind("rounded-full p-5 mx-8 mt-12 bg-indigo-300")}
         onPress={() =>
-          handleFormSubmit(userData, user, setDataUpdatedModalVisible)
+          handleFormSubmit(
+            weightValue,
+            heightValue,
+            goalWeightValue,
+            age,
+            genderValue,
+            selectedDate,
+            user,
+            setDataUpdatedModalVisible
+          )
         }
       >
         <Text style={tailwind("text-lg text-white text-center font-bold")}>

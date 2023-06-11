@@ -28,7 +28,6 @@ function LastActivitiesCard({ activity }) {
 function ActivitiesList ({}) {
   const tailwind = useTailwind();
   const {activityData, loading } = useFetchActivityData();
-
   if (loading) {
     return (
       <View style={tailwind("flex-1 justify-center items-center")}>
@@ -39,8 +38,8 @@ function ActivitiesList ({}) {
   
   return (
     <View>
-      {activityData.map((activity) => (
-        <LastActivitiesCard key={activity.id} activity={activity} />
+      {activityData.map((activity, index) => (
+        <LastActivitiesCard key={index} activity={activity} />
       ))}
     </View>
   );

@@ -20,7 +20,7 @@ export default function VideoPlayer({ videoId, onTogglePlayback, videoRef, setSt
           source={{
             uri: `https://www.dropbox.com/s/${videoId}.mp4?dl=1`,
           }}
-          useNativeControls
+          useNativeControls={false}
           resizeMode={ResizeMode.CONTAIN}
           onPlaybackStatusUpdate={(status) => {
             setStatus(() => status);

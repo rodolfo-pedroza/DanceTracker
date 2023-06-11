@@ -5,7 +5,6 @@ import { Card } from "react-native-paper";
 import { useTailwind } from "tailwind-rn";
 import { useAuth } from "../contexts/authContext";
 import useFetchUserData from "../hooks/useFetchUserData";
-import useFetchBmi from "../hooks/useFetchBmi";
 
 function BmiCard(  ) {
   const tailwind = useTailwind();
@@ -14,12 +13,10 @@ function BmiCard(  ) {
 
   const { userData, loading, fetchUserData } = useFetchUserData();
 
-  console.log('userData', userData);
-
   
   useEffect(() => {
     fetchUserData();
-  }, [user]);
+  }, []);
   
   
   const navigateToProfilePage = () => {

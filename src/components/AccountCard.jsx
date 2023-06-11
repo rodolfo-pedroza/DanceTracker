@@ -9,7 +9,6 @@ const AccountCard = () => {
     const navigation = useNavigation();
 
     const onDataPress = () => {
-        console.log('onDataPress')
         navigation.navigate('UserDataPage')
     }
     

@@ -30,7 +30,7 @@ const useFetchVideos = () => {
               rhythm: routineData.rhythm,
               difficulty: routineData.difficulty,
               duration: routineData.duration,
-              video_url: routineData.video_id,
+              video_id: routineData.video_id,
               creator: routineData.creator,
             };
 

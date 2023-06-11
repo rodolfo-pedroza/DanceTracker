@@ -48,7 +48,7 @@ const useFetchActivityData = () => {
     };
 
     fetchActivityData();
-  }, []);
+  }, [user]);
 
   return { activityData, loading };
 };

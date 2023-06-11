@@ -7,12 +7,14 @@ import { useState } from "react";
 
 const FitbitStatusCard = () => {
   const tailwind = useTailwind();
-  const { calories, steps, distance } = useFitbitData(getCurrentDate());
+  const fitbitData = useFitbitData(getCurrentDate());
+  const { calories, steps, distance } = fitbitData;
+
   const roundedDistance = Math.round(distance * 100) / 100;
 
   function  getCurrentDate () {
     const currentDate = new Date()
-    return newDate = format(currentDate, 'yyyy-MM-dd')
+    return format(currentDate, 'yyyy-MM-dd')
     };
 
   return (

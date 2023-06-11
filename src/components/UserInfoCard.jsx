@@ -3,11 +3,10 @@ import { useEffect } from "react";
 import { useTailwind } from "tailwind-rn";
 import { Card } from "react-native-paper";
 import useFetchUserData from "../hooks/useFetchUserData";
-import { useAuth } from "../contexts/authContext";
+import React, { useAuth } from "../contexts/authContext";
 
 const UserInfoCard = () => {
   const tailwind = useTailwind();
-  const { user } = useAuth();
 
   const { userData, loading, fetchUserData } = useFetchUserData();
   console.log("userData", userData);

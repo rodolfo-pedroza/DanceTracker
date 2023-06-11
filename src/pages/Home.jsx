@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   SafeAreaView,
   StatusBar,
@@ -18,6 +18,7 @@ import ActivitiesList from "../components/ActivitiesList.jsx";
 import FitbitStatusCard from "../components/FitbitStatusCard.jsx";
 import FitbitAuthConnect from "../components/FitbitAuthConnect.jsx";
 import useFetchActivityData from "../hooks/useFetchActivityData.jsx";
+import RecommendationsCard from "../components/RecommendationsCard.jsx";
 
 const styles = StyleSheet.create({
   container: {
@@ -26,45 +27,66 @@ const styles = StyleSheet.create({
   },
 });
 
-function Home({ navigation }) {
-  const { user } = useAuth();
+const Home = memo(({ navigation }) => {
+  const { user, handleFitbitAuth, authToken } = useAuth();
   const tailwind = useTailwind();
 
-  const {activityData, loading } = useFetchActivityData();
-
-  console.log('activityData', activityData);
-
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <View style={tailwind("flex-row px-8 justify-between")}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={tailwind("flex-row px-8 justify-between")}>
+          <View>
+            <Text>Bienvenido</Text>
+            <Text style={tailwind("text-lg font-bold")}>
+              {user.displayName}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={tailwind("justify-center")}
+            onPress={() => navigation.navigate("ProfilePage")}
+          >
             <View>
-              <Text>Bienvenido</Text>
-              <Text style={tailwind("text-lg font-bold")}>
-                {user.displayName}
-              </Text>
+              <Avatar.Image size={30} source={{ uri: user.photoURL }} />
             </View>
+          </TouchableOpacity>
+        </View>
+        <BMICard />
+        <View style={tailwind("flex-1 justify-center items-center")}>
+          <View style={tailwind('flex-1 justify-center items-center bg-white rounded-3xl p-2.5 w-80')}>
+            {authToken === null || !authToken ? (
+              <TouchableOpacity
+                style={tailwind("rounded-3xl p-2.5 w-48 bg-teal-500")}
+                onPress={handleFitbitAuth}
+              >
+                <Text style={tailwind("text-sm text-white text-center")}>
+                  Conectar Fitbit
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <Text style={tailwind("text-base font-bold text-green-400")}>
+                Fitbit conectado
+              </Text>
+            )}
+          </View>
+        </View>
+        <FitbitStatusCard />
+        <View style={tailwind("flex-1 py-2 justify-center items-center")}>
+          <View>
             <TouchableOpacity
-              style={tailwind("justify-center")}
-              onPress={() => navigation.navigate("ProfilePage")}
+              style={tailwind("rounded-3xl p-2.5 w-48 bg-purple-300")}
+              onPress={() => navigation.navigate("RecommendationsPage")}
             >
-              <View>
-                <Avatar.Image size={30} source={{ uri: user.photoURL }} />
-              </View>
+              <Text style={tailwind("text-sm  text-center")}>
+                Recomendar Actividad
+              </Text>
             </TouchableOpacity>
           </View>
-          <BMICard />
-          <FitbitAuthConnect />
-          <FitbitStatusCard />
-          <Text style={tailwind("text-lg font-bold px-8")}>
-            Última actividad
-          </Text>
-          <ActivitiesList />
-        </ScrollView>
-      </SafeAreaView>
-    </>
+        </View>
+        <Text style={tailwind("text-lg font-bold px-8 my-2")}>Última actividad</Text>
+        <ActivitiesList />
+      </ScrollView>
+    </SafeAreaView>
   );
-}
+});
 
 export default Home;

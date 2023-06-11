@@ -52,7 +52,7 @@ const ThumbnailList = ({ categoria, selectedLevel }) => {
           {filteredVideos.length > 0 ? (
             filteredVideos.map((video, index) => (
               <TouchableOpacity
-                key={video.routine_id}
+                key={index}
                 style={tailwind(
                   "flex mt-4 mx-8 rounded-3xl bg-slate-700"
                 )}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 const useFetchUserData = () => {
@@ -13,6 +13,8 @@ const useFetchUserData = () => {
         const userDocRef = doc(db, 'userData', user.uid);
         const profileDataRef = collection(userDocRef, 'profileData');
 
+        const q = query(profileDataRef, orderBy('createdAt', 'desc'), limit(1));
+        
         const unsubscribe = onSnapshot(profileDataRef, (querySnapshot) => {
             if(querySnapshot.empty) {
                 console.log('No matching documents.');

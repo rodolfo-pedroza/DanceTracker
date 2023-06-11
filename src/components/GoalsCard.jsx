@@ -7,8 +7,6 @@ import { useTailwind } from "tailwind-rn";
 
 function GoalsCard({ icon, onIconPress }) {
   const tailwind = useTailwind();
-  console.log(icon);
-
   return (
     <Card style={tailwind("p-4 m-8 mt-4 rounded-3xl bg-indigo-100")}>
       <View style={tailwind("flex-row justify-between items-center")}>

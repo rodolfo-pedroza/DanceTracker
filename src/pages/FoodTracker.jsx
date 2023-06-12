@@ -14,6 +14,8 @@ import useFetchFoodData from "../hooks/useFetchFoodData.jsx";
 import TotalSummary from "../components/TotalSummary.jsx";
 import { calculateTotals, extractMealItems } from "../utils/foodTrackerUtils.js";
 import DateNavigation from "../components/DateNavigation.jsx";
+import useProfileData from "../hooks/useProfileData.jsx";
+import { useAuth } from "../contexts/authContext.js";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +27,7 @@ const styles = StyleSheet.create({
 function FoodTracker() {
   const tailwind = useTailwind();
   const navitation = useNavigation();
+  const { user } = useAuth();
 
   const currentDate = new Date();
   const [displayedDate, setDisplayedDate] = useState(currentDate);
@@ -32,6 +35,10 @@ function FoodTracker() {
   console.log('foodData', foodData)
 
   const { breakfastItems, lunchItems, dinnerItems, snackItems } = extractMealItems(foodData);
+
+  const {isLoading, error, profileData} = useProfileData(user);
+  const suggestedCalories = profileData?.suggested_calories;
+  console.log('suggestedCalories', typeof suggestedCalories)
 
   const [totals, setTotals] = useState({
     totalCalories: 0,
@@ -78,7 +85,7 @@ function FoodTracker() {
           onPrevDate={handlePevDate}
           onNextDate={handleNextDate}
         />
-        <TotalSummary totals={totals} suggestedCalories={2000} />
+        <TotalSummary totals={totals} suggestedCalories={Math.ceil(suggestedCalories)} />
         <View style={tailwind("flex-1 px-8 py-2")}>
           <MealComponent
             meal="Desayuno"

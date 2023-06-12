@@ -11,9 +11,10 @@ import {
 import { useTailwind } from "tailwind-rn/dist";
 import useFetchUserData from "../hooks/useFetchUserData";
 import useFetchRecommendedVideos from "../hooks/useFetchRecommendedVideos";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../contexts/authContext";
+import useProfileData from "../hooks/useProfileData";
 
 const styles = StyleSheet.create({
   container: {
@@ -35,9 +36,15 @@ const RecommendationsPage = () => {
   const { user } = useAuth();
 
   const { userData, fetchUserData } = useFetchUserData();
-  const { data, error, loading } = useFetchRecommendedVideos(userData);
   const [selectedCategory, setSelectedCategory] = useState("salsa");
   const navigation = useNavigation();
+  const {profileData} = useProfileData(user);
+  console.log('profileData recomend', profileData);
+  const classification = profileData?.classification;
+  const bmi = profileData?.bmi;
+  const bmr = profileData?.bmr;
+  
+  const { data, loading } = useFetchRecommendedVideos(userData, bmi, bmr, classification);
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);

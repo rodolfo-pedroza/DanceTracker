@@ -7,6 +7,9 @@ import useUpdateUserInfo from "../hooks/useUpdateUserInfo";
 import WeightHeightInputs from "../components/WeightHeightInputs";
 import CustomDateTimePicker from "../components/CustomDateTimePicker";
 import GenderButtons from "../components/GenderButtons";
+import ActivityLevelModal from "../components/ActivitiLevelModal";
+import useCalculateStats from "../hooks/useCalculateStats";
+import { calculateAge } from "../utils/UserDataPageUtils";
 ;
 
 const UserDataPage = () => {
@@ -21,19 +24,34 @@ const UserDataPage = () => {
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
 
+  const [activityLevel, setActivityLevel] = useState("");
+  const [activityLevelModalVisible, setActivityLevelModalVisible] = useState(false);
+
+  const {isLoading, error, calculateStats} = useCalculateStats(user);
+  
   const {
     dataUpdatedModalVisible,
     setDataUpdatedModalVisible,
     updateUserInfo,
   } = useUpdateUserInfo(user);
 
-  const handleFormSubmit = () => {
-    updateUserInfo(
+  const handleFormSubmit = async () => {
+    await updateUserInfo(
       weightValue,
       heightValue,
       goalWeightValue,
       genderValue,
-      selectedDate
+      selectedDate,
+      activityLevel
+    );
+
+    await calculateStats(
+      calculateAge(selectedDate),
+      genderValue,
+      activityLevel,
+      parseFloat(weightValue),
+      parseFloat(heightValue),
+      parseFloat(goalWeightValue)
     );
   };
 
@@ -70,14 +88,25 @@ const UserDataPage = () => {
         />
       </View>
       <TouchableOpacity
-        style={tailwind("rounded-full p-5 mx-8 mt-12 bg-indigo-300")}
+        style={tailwind("rounded-xl p-3 mx-8 mt-2 bg-blue-300")}
+        onPress={() => setActivityLevelModalVisible(true)}
+      >
+        <Text style={tailwind("text-white text-base font-bold text-center")}>¿Cuál es su nivel de actividad física?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={tailwind("rounded-full p-4 mx-8 mt-12 bg-indigo-300")}
         onPress={handleFormSubmit}
       >
-        <Text style={tailwind("text-white text-center")}>Actualizar</Text>
+        <Text style={tailwind("text-white text-lg font-bold text-center")}>Actualizar</Text>
       </TouchableOpacity>
       <DataUpdatedModal
         visible={dataUpdatedModalVisible}
         setVisible={setDataUpdatedModalVisible}
+      />
+      <ActivityLevelModal
+        visible={activityLevelModalVisible}
+        setVisible={setActivityLevelModalVisible}
+        setActivityLevel={setActivityLevel}
       />
     </ScrollView>
   );

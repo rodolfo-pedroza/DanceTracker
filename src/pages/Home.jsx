@@ -16,6 +16,7 @@ import { Avatar } from "react-native-paper";
 import BMICard from "../components/BMICard.jsx";
 import ActivitiesList from "../components/ActivitiesList.jsx";
 import FitbitStatusCard from "../components/FitbitStatusCard.jsx";
+import useProfileData from "../hooks/useProfileData.jsx";
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +28,6 @@ const styles = StyleSheet.create({
 const Home = memo(({ navigation }) => {
   const { user, handleFitbitAuth, authToken, displayNameUpdated  } = useAuth();
   const tailwind = useTailwind();
-  console.log("user home", user)
 
   useEffect(() => {
     // This will force a re-render whenever displayNameUpdated changes

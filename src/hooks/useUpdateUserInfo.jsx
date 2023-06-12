@@ -1,25 +1,18 @@
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase/config";
-import { differenceInYears } from "date-fns";
+import { calculateAge } from "../utils/UserDataPageUtils";
 
 export const useUpdateUserInfo = (user) => {
   const [dataUpdatedModalVisible, setDataUpdatedModalVisible] = useState(false);
-
-  const calculateAge = (selectedDate) => {
-    if (selectedDate) {
-      const currentDate = new Date();
-      return differenceInYears(currentDate, selectedDate);
-    }
-    return null;
-  };
 
   const updateUserInfo = async (
     weight,
     height,
     goalWeight,
     gender,
-    selectedDate
+    selectedDate,
+    activityLevel
   ) => {
     if (user) {
       const userId = user.uid;
@@ -36,6 +29,7 @@ export const useUpdateUserInfo = (user) => {
           genre: gender,
           dateOfBirth: selectedDate ? selectedDate.toISOString() : null,
           createdAt: new Date().toISOString(),
+          activityLevel
         };
 
         await addDoc(profileDataRef, updatedUserData);

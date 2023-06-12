@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
 
-const useFetchRecommendedVideos = (user) => {
+const useFetchRecommendedVideos = (user, bmi, bmr, bmiClassification) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-
+  
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -17,12 +16,12 @@ const useFetchRecommendedVideos = (user) => {
           },
           body: JSON.stringify({
             age: user.age,
-            bmi: user.bmi,
-            bmr: user.bmr,
-            bmiClassification: user.classification,
             genre: user.genre,
             weight: user.weight,
             height: user.height,
+            bmiClassification,
+            bmi,
+            bmr,
           }),
         });
 
@@ -35,6 +34,9 @@ const useFetchRecommendedVideos = (user) => {
         setError(null);
       } catch (error) {
         setError(error.message);
+
+        // Log the error object
+        console.log('Error object:', error);
         console.log(error.message);
       } finally {
         setIsLoading(false);
@@ -42,7 +44,7 @@ const useFetchRecommendedVideos = (user) => {
     };
 
     fetchData();
-  }, [user]);
+  }, [user, bmiClassification, bmi, bmr]);
 
   return { data, error, isLoading };
 };

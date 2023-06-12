@@ -1,9 +1,11 @@
-import { ScrollView, SafeAreaView, StatusBar, KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import React from "react";
+import { ScrollView, SafeAreaView, StatusBar, KeyboardAvoidingView, StyleSheet, View, Platform, TouchableOpacity, Image } from "react-native";
 import { Formik } from "formik";
 import FormikInputValue from "../components/FormikInputValue";
 import { registrationValidationSchema } from "../validationSchemas/registration.js";
 import { Text, Button, IconButton } from "react-native-paper";
 import { useAuth } from "../contexts/authContext.js";
+import { useTailwind } from "tailwind-rn";
 
 const initialValues = {
   name: "",
@@ -20,11 +22,11 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   form: {
-    flex: 3,
+    flex: 2,
     margin: 12,
   },
   middle: {
-    flex: 2,
+    flex: 3,
     justifyContent: "flex-end",
     paddingBottom: 10,
   },
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
 
 export default function RegistrationPage({ navigation }) {
   const { user, register, loginWithGoogle } = useAuth();
+  const tailwind = useTailwind();
 
   const onFooterLinkPress = () => {
     navigation.navigate("LoginPage");
@@ -91,21 +94,21 @@ export default function RegistrationPage({ navigation }) {
                 <View style={styles.form}>
                   <Text variant="headlineSmall" style={{ textAlign: "center" }}>
                     {" "}
-                    Create an account{" "}
+                    Crea una cuenta{" "}
                   </Text>
-                  <FormikInputValue placeholder="Name" name="name" icon="account" />
+                  <FormikInputValue placeholder="Nombre" name="name" icon="account" />
                   <FormikInputValue
-                    placeholder="Lastname"
+                    placeholder="Apellido"
                     name="lastname"
                     icon="account"
                   />
                   <FormikInputValue
-                    placeholder="E-mail"
+                    placeholder="Correo electrónico"
                     name="email"
                     icon="email"
                   />
                   <FormikInputValue
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     name="password"
                     secureTextEntry
                     icon="lock"
@@ -113,13 +116,15 @@ export default function RegistrationPage({ navigation }) {
                   />
                   <FormikInputValue
                     secureTextEntry
-                    placeholder="Confirm Password"
+                    placeholder="Confirmar contraseña"
                     name="confirmPassword"
                     icon="lock"
                   />
                   <View style={styles.middle}>
                     <Button onPress={handleSubmit} mode="contained">
-                      Register
+                      <Text style={tailwind("text-white text-lg font-bold")}>
+                        Registrarse
+                      </Text>
                     </Button>
                   </View>
                 </View>
@@ -129,15 +134,28 @@ export default function RegistrationPage({ navigation }) {
           <View style={styles.end}>
             <Text variant="labelLarge" style={{ textAlign: "center" }}>
               {" "}
-              Or login with{" "}
+              O continua con{" "}
             </Text>
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
-              <IconButton icon="google" size={30} onPress={loginWithGoogle} />
+            <View style={tailwind("flex py-2")}>
+              <TouchableOpacity
+                style={tailwind(
+                  "flex flex-row justify-center items-center p-1 mx-6 my-2 border-solid border-2 rounded-lg "
+                )}
+                onPress={loginWithGoogle}
+              >
+                <Image
+                  style={tailwind("w-10 h-10")}
+                  source={require("../assets/images/google.png")}
+                />
+                <Text style={tailwind("text-lg font-bold")}>
+                  Continuar con Google
+                </Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.footerText}>
-              Already have an account?{" "}
-              <Text style={styles.footerLink} onPress={onFooterLinkPress}>
-                LogIn
+            <Text style={tailwind('text-center py-2')}>
+              ¿Ya tienes una cuenta?{" "}
+              <Text style={tailwind('text-lg font-bold text-indigo-400')} onPress={onFooterLinkPress}>
+                Inicia sesión
               </Text>
             </Text>
           </View>

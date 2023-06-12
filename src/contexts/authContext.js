@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useContext,
   useState,
@@ -10,6 +10,7 @@ import { auth } from "../firebase/config";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithCredential,
   signInWithEmailAndPassword,
   signOut,
@@ -32,15 +33,24 @@ WebBrowser.maybeCompleteAuthSession();
 
 export const AuthProvider = ({ children, navigation }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [authToken, setAuthToken] = useState(null);
+  const [displayNameUpdated, setDisplayNameUpdated] = useState(false);
+
+  const updateDisplayName = () => {
+    setDisplayNameUpdated(!displayNameUpdated);
+  };
 
   useEffect(() => {
-    const unsubsribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+    const unsubsribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        console.log("user context", user);
+      } else {
+        setUser(null);
+      }
       setLoading(false);
-      console.log("user", user);
     });
     return unsubsribe;
   }, []);
@@ -140,7 +150,9 @@ export const AuthProvider = ({ children, navigation }) => {
       await updateProfile(userCredential.user, {
         displayName: `${name} ${lastname}`,
       });
+      await userCredential.user.reload();
       setUser(userCredential.user);
+      updateDisplayName();
     } catch (error) {
       console.log("Error signing in with password and email!", error);
     }
@@ -155,12 +167,10 @@ export const AuthProvider = ({ children, navigation }) => {
     }
   };
 
-  const memoizedUser = useMemo(() => user, [user]);
-
   return (
     <AuthContext.Provider
       value={{
-        user: memoizedUser,
+        user,
         login,
         register,
         logout,
@@ -168,6 +178,7 @@ export const AuthProvider = ({ children, navigation }) => {
         loading,
         authToken,
         handleFitbitAuth,
+        updateDisplayName,
       }}
     >
       {children}

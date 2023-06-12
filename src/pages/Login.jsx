@@ -6,16 +6,15 @@ import {
   Platform,
   StatusBar,
   KeyboardAvoidingView,
+  Image,
+  TouchableOpacity
 } from "react-native";
 import { Formik } from "formik";
 import { loginValidationSchema } from "../validationSchemas/login.js";
 import FormikInputValue from "../components/FormikInputValue";
-import {
-  Text,
-  Button,
-  IconButton,
-} from "react-native-paper";
+import { Text, Button } from "react-native-paper";
 import { useAuth } from "../contexts/authContext.js";
+import { useTailwind } from "tailwind-rn";
 
 const initialValues = {
   email: "",
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   form: {
-    flex: 3,
+    flex: 2,
     margin: 12,
   },
   middle: {
@@ -45,21 +44,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: -5,
   },
-  footerText: {
-    fontSize: 16,
-    color: "#2e2e2d",
-    textAlign: "center",
-    paddingTop: 20,
-  },
-  footerLink: {
-    color: "#788eec",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
 });
 
 export default function LoginPage({ navigation }) {
   const { login, loginWithGoogle, loading } = useAuth();
+  const tailwind = useTailwind();
 
   const onFooterLinkPress = () => {
     navigation.navigate("RegistrationPage");
@@ -94,12 +83,12 @@ export default function LoginPage({ navigation }) {
                     Iniciar Sesión{" "}
                   </Text>
                   <FormikInputValue
-                    placeholder="E-mail"
+                    placeholder="Correo electrónico"
                     name="email"
                     icon="email"
                   />
                   <FormikInputValue
-                    placeholder="Password"
+                    placeholder="Contraseña"
                     name="password"
                     secureTextEntry
                     icon="lock"
@@ -107,12 +96,13 @@ export default function LoginPage({ navigation }) {
                   />
                   <Text variant="labelLarge" style={{ textAlign: "center" }}>
                     {" "}
-                    Forgot password?{" "}
+                    Olvidaste tu contraseña?{" "}
                   </Text>
                   <View style={styles.middle}>
                     <Button onPress={handleSubmit} mode="contained">
-                      {" "}
-                      Sign in{" "}
+                      <Text style={tailwind("text-white text-lg font-bold")}>
+                        Iniciar Sesión
+                      </Text>
                     </Button>
                   </View>
                 </View>
@@ -121,16 +111,30 @@ export default function LoginPage({ navigation }) {
           </Formik>
           <View style={styles.end}>
             <Text variant="labelLarge" style={{ textAlign: "center" }}>
-              {" "}
-              Or sign in with{" "}
+              <Text style={tailwind("text-base font-bold")}>
+                También puedes usar tus redes sociales.
+              </Text>
             </Text>
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
-              <IconButton icon="google" size={30} onPress={loginWithGoogle} />
+            <View style={tailwind("flex py-2")}>
+              <TouchableOpacity
+                style={tailwind(
+                  "flex flex-row justify-center items-center p-1 mx-6 my-2 border-solid border-2 rounded-lg "
+                )}
+                onPress={loginWithGoogle}
+              >
+                <Image
+                  style={tailwind("w-10 h-10")}
+                  source={require("../assets/images/google.png")}
+                />
+                <Text style={tailwind("text-lg font-bold")}>
+                  Continuar con Google
+                </Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.footerText}>
-              Don't have an account?{" "}
-              <Text style={styles.footerLink} onPress={onFooterLinkPress}>
-                Sign Up
+            <Text style={tailwind('text-center py-2')}>
+              ¿No tienes cuenta?{" "}
+              <Text style={tailwind('text-lg font-bold text-indigo-400')} onPress={onFooterLinkPress}>
+                Regístrate
               </Text>
             </Text>
           </View>

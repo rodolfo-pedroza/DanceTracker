@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useEffect } from "react";
 import {
   SafeAreaView,
   StatusBar,
@@ -8,7 +8,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Button,
+  ActivityIndicator,
 } from "react-native";
 import { useAuth } from "../contexts/authContext.js";
 import { useTailwind } from "tailwind-rn";
@@ -16,9 +16,6 @@ import { Avatar } from "react-native-paper";
 import BMICard from "../components/BMICard.jsx";
 import ActivitiesList from "../components/ActivitiesList.jsx";
 import FitbitStatusCard from "../components/FitbitStatusCard.jsx";
-import FitbitAuthConnect from "../components/FitbitAuthConnect.jsx";
-import useFetchActivityData from "../hooks/useFetchActivityData.jsx";
-import RecommendationsCard from "../components/RecommendationsCard.jsx";
 
 const styles = StyleSheet.create({
   container: {
@@ -28,8 +25,13 @@ const styles = StyleSheet.create({
 });
 
 const Home = memo(({ navigation }) => {
-  const { user, handleFitbitAuth, authToken } = useAuth();
+  const { user, handleFitbitAuth, authToken, displayNameUpdated  } = useAuth();
   const tailwind = useTailwind();
+  console.log("user home", user)
+
+  useEffect(() => {
+    // This will force a re-render whenever displayNameUpdated changes
+  }, [displayNameUpdated]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,7 +40,7 @@ const Home = memo(({ navigation }) => {
           <View>
             <Text>Bienvenido</Text>
             <Text style={tailwind("text-lg font-bold")}>
-              {user.displayName}
+              {user?.displayName}
             </Text>
           </View>
           <TouchableOpacity

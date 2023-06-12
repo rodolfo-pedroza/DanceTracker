@@ -97,7 +97,7 @@ export const AuthProvider = ({ children, navigation }) => {
     }
     console.log("result", result);
     console.log("authToken", authToken);
-  }, []);
+  }, [authToken]);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:

@@ -15,7 +15,7 @@ const useFetchUserData = () => {
 
         const q = query(profileDataRef, orderBy('createdAt', 'desc'), limit(1));
         
-        const unsubscribe = onSnapshot(profileDataRef, (querySnapshot) => {
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
             if(querySnapshot.empty) {
                 console.log('No matching documents.');
                 setLoading(false);

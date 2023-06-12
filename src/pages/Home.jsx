@@ -31,7 +31,7 @@ const Home = memo(({ navigation }) => {
 
   useEffect(() => {
     // This will force a re-render whenever displayNameUpdated changes
-  }, [displayNameUpdated]);
+  }, [displayNameUpdated, user]);
 
   return (
     <SafeAreaView style={styles.container}>

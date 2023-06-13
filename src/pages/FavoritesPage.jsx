@@ -7,11 +7,12 @@ import {
   StatusBar,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import useFetchFavoriteVideos from "../hooks/useFetchFavoriteVideos";
 import { images } from "../data/constants";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
@@ -36,19 +37,18 @@ const FavoritesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("salsa");
   const navigation = useNavigation();
 
-  const [videoImageIndexes, setVideoImageIndexes] = useState({});
-
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
+  };
 
-    setVideoImageIndexes((prevState) => {
-        const updatedIndexes = {}
-        for (const video of videos[category]) {
-            updatedIndexes[video.routine_id] = Math.floor(Math.random() * images.length)
-        }
-        return updatedIndexes
-    })
-};
+  if (loading) {
+    return (
+      <View style={tailwind("flex-1 items-center justify-center mt-4")}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text style={tailwind("text-center text-xl mt-4")}>Cargando...</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -121,7 +121,7 @@ const FavoritesPage = () => {
               >
                 <ImageBackground
                   source={{
-                    uri: images[0].thumbnails[videoImageIndexes[video.routine_id]],
+                    uri: video.thumbnail,
                   }}
                   style={styles.card}
                 >

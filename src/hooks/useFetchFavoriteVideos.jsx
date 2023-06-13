@@ -36,6 +36,7 @@ const useFetchFavoriteVideos  = () => {
               duration: routineData.duration,
               video_url: routineData.video_id,
               creator: routineData.creator,
+              thumbnail: routineData.thumbnail,
             };
 
             danceVideos.push(video);

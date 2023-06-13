@@ -32,6 +32,7 @@ const useFetchVideos = () => {
               duration: routineData.duration,
               video_id: routineData.video_id,
               creator: routineData.creator,
+              thumbnail: routineData.thumbnail,
             };
 
             danceVideos.push(video);

@@ -20,14 +20,14 @@ const ProfilePage = () => {
   const { user, logout } = useAuth();
   return (
     <ScrollView style={styles.container} >
-      <View style={tailwind("flex-row mt-4 px-8 items-center")}>
+      <View style={tailwind("flex-row mt-4 px-8 items-center justify-between")}>
         <View>
           <Avatar.Image size={45} source={{ uri: user.photoURL }} />
         </View>
         <Text style={tailwind("text-lg font-bold ml-4")}>
           {user.displayName}
         </Text>
-        <View style={tailwind("ml-8 p-2 bg-indigo-100 w-16 rounded-2xl")}>
+        <View style={tailwind("p-2 bg-indigo-100 w-16 rounded-xl")}>
           <TouchableOpacity onPress={() => logout()}>
             <Text style={tailwind("text-center")}>Salir</Text>
           </TouchableOpacity>

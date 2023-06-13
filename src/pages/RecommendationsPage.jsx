@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { useTailwind } from "tailwind-rn/dist";
 import useFetchUserData from "../hooks/useFetchUserData";
@@ -38,13 +39,18 @@ const RecommendationsPage = () => {
   const { userData, fetchUserData } = useFetchUserData();
   const [selectedCategory, setSelectedCategory] = useState("salsa");
   const navigation = useNavigation();
-  const {profileData} = useProfileData(user);
-  console.log('profileData recomend', profileData);
+  const { profileData } = useProfileData(user);
+  console.log("profileData recomend", profileData);
   const classification = profileData?.classification;
   const bmi = profileData?.bmi;
   const bmr = profileData?.bmr;
-  
-  const { data, loading } = useFetchRecommendedVideos(userData, bmi, bmr, classification);
+
+  const { data, loading } = useFetchRecommendedVideos(
+    userData,
+    bmi,
+    bmr,
+    classification
+  );
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
@@ -66,16 +72,14 @@ const RecommendationsPage = () => {
     return transformedData;
   };
 
-  console.log('data', userData);
+  console.log("data", userData);
 
   const transformedData = data ? transformData(data) : null;
 
-//   console.log('transformedData', transformedData[selectedCategory].video);
-
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView >
       <View
-        style={tailwind("flex flex-row justify-between items-center px-8 py-4")}
+        style={tailwind("flex flex-row justify-between items-center px-8 pt-8")}
       >
         <TouchableOpacity
           style={[
@@ -129,38 +133,39 @@ const RecommendationsPage = () => {
       <View style={tailwind("flex-1 px-8 py-4 ")}>
         <View>
           {loading ? (
-            <Text>Cargando...</Text>
-          ) : transformedData && Object.keys(transformedData).length > 0 ? (
-            transformedData[selectedCategory]?.video ? (
-              transformedData[selectedCategory]?.video?.map((video) => (
-                <TouchableOpacity
-                  key={video.video_id}
-                  onPress={() => navigation.navigate("RoutinePage", { video })}
-                  style={tailwind("rounded-3xl mt-4 mx-4 bg-slate-700")}
-                >
-                  <ImageBackground
-                    source={{
-                      uri: "https://res.cloudinary.com/dtrkstqmm/image/upload/v1685716006/thumbnails/bachata/bachata12.jpg",
-                    }}
-                    style={styles.card}
-                  >
-                    <View
-                      style={tailwind(
-                        "flex justify-center p-4 absolute bottom-0 left-0"
-                      )}
-                    >
-                      <Text style={tailwind("text-white text-lg font-bold")}>
-                        {video.title}
-                      </Text>
-                    </View>
-                  </ImageBackground>
-                </TouchableOpacity>
-              ))
-            ) : (
-              <Text>No hay videos recomendados para esta categoria</Text>
-            )
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : !transformedData || Object.keys(transformedData).length === 0 ? (
+            <Text style={tailwind("text-center text-xl mt-4")}>
+              Aún no contamos con videos que podamos recomendarte, estamos
+              trabajando en videos para ti.😊{" "}
+            </Text>
+          ) : !transformedData[selectedCategory]?.video ? (
+            <Text>No hay videos recomendados para esta categoria</Text>
           ) : (
-            <Text>No hay videos recomendados</Text>
+            transformedData[selectedCategory]?.video?.map((video) => (
+              <TouchableOpacity
+                key={video.video_id}
+                onPress={() => navigation.navigate("RoutinePage", { video })}
+                style={tailwind("rounded-3xl mt-4 mx-4 bg-slate-700")}
+              >
+                <ImageBackground
+                  source={{
+                    uri: video.thumbnail,
+                  }}
+                  style={styles.card}
+                >
+                  <View
+                    style={tailwind(
+                      "flex justify-center p-4 absolute bottom-0 left-0"
+                    )}
+                  >
+                    <Text style={tailwind("text-white text-lg font-bold")}>
+                      {video.title}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            ))
           )}
         </View>
       </View>

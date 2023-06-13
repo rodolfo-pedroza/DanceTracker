@@ -25,8 +25,8 @@ function Gallery() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={tailwind("flex-row px-8 pt-8 justify-between")}>
-          <Text style={tailwind("text-lg font-bold")}>Categorias</Text>
+        <View style={tailwind("flex-1 justify-center items-center py-4 pt-8")}>
+          <Text style={tailwind("text-xl font-bold text-center")}>Rutinas de baile</Text>
         </View>
         <CategoryCard images={images} />
       </ScrollView>

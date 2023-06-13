@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import useFetchVideos from "../hooks/useFetchVideos";
@@ -31,14 +32,13 @@ const ThumbnailList = ({ categoria, selectedLevel }) => {
     (video) => video.difficulty === selectedLevel
   ) : [];
 
-  const getRandomIndex = () => {
-    return Math.floor(Math.random() * categoria.thumbnails.length);
-  };
-
   if (loading) return (
-    <Text style={tailwind("flex-1 items-center justify-center text-center text-xl mt-4")}>
-        Cargando...
-    </Text>
+    <View style={tailwind("flex-1 items-center justify-center mt-4")}>
+       <ActivityIndicator size="large" color="#0000ff" />
+       <Text style={tailwind("text-center text-xl mt-4")}>
+         Cargando...
+       </Text>
+     </View>
   )
 
   if (error) {
@@ -60,7 +60,7 @@ const ThumbnailList = ({ categoria, selectedLevel }) => {
               >
                 <ImageBackground
                   source={{
-                    uri: categoria.thumbnails[getRandomIndex()],
+                    uri: video.thumbnail,
                   }}
                   style={styles.card}
                 >

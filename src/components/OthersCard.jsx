@@ -16,7 +16,7 @@ const OthersCard = () => {
           </View>
           <IconButton icon="chevron-right" size={24} iconColor="#818cf8" />
         </View>
-        <View style={tailwind("flex-row justify-between items-center")}>
+        {/* <View style={tailwind("flex-row justify-between items-center")}>
           <View style={tailwind("flex-row items-center")}>
             <IconButton icon="shield-check-outline" size={24} iconColor="#818cf8" />
             <Text style={tailwind("text-sm")}>Política de privacidad</Text>
@@ -29,7 +29,7 @@ const OthersCard = () => {
             <Text style={tailwind("text-sm")}>Configuración</Text>
           </View>
           <IconButton icon="chevron-right" size={24} iconColor="#818cf8" />
-        </View>
+        </View> */}
       </View>
     </Card>
   );

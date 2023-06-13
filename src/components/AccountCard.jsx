@@ -24,13 +24,13 @@ const AccountCard = () => {
                     </View>
                         <IconButton icon="chevron-right" size={24} iconColor='#818cf8' onPress={onDataPress}/>
                     </View>
-                    <View style={tailwind('flex-row justify-between items-center')}>
+                    {/* <View style={tailwind('flex-row justify-between items-center')}>
                         <View style={tailwind('flex-row items-center')}>
                         <IconButton icon="text-box-outline" size={24} iconColor='#818cf8' />
                         <Text style={tailwind('text-sm')}>Logros</Text>
                     </View>
                         <IconButton icon="chevron-right" size={24} iconColor='#818cf8' />
-                    </View>
+                    </View> */}
                     <View style={tailwind('flex-row justify-between items-center')}>
                         <View style={tailwind('flex-row items-center')}>
                         <IconButton icon="chart-pie" size={24} iconColor='#818cf8' />
@@ -38,13 +38,13 @@ const AccountCard = () => {
                     </View>
                         <IconButton icon="chevron-right" size={24} iconColor='#818cf8' />
                     </View>
-                    <View style={tailwind('flex-row justify-between items-center')}>
+                    {/* <View style={tailwind('flex-row justify-between items-center')}>
                         <View style={tailwind('flex-row items-center')}>
                         <IconButton icon="chart-waterfall" size={24} iconColor='#818cf8' />
                         <Text style={tailwind('text-sm')}>Progreso</Text>
                     </View>
                         <IconButton icon="chevron-right" size={24} iconColor='#818cf8' />
-                    </View>
+                    </View> */}
                 </View>
             </Card>
         </View>

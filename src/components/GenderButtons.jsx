@@ -2,9 +2,11 @@ import React from "react";
 import { View, Text } from "react-native";
 import { useTailwind } from "tailwind-rn";
 import { IconButton } from "react-native-paper";
+import { useFormikContext } from "formik";
 
-const GenderButtons = ({ genderValue, setGenderValue }) => {
+const GenderButtons = ({ genderValue, setGenderValue, setFieldValue }) => {
   const tailwind = useTailwind();
+  const { values } = useFormikContext();
 
   return (
     <View style={tailwind("flex-row justify-around items-center py-3")}>
@@ -13,14 +15,14 @@ const GenderButtons = ({ genderValue, setGenderValue }) => {
         <View
           style={[
             tailwind("bg-white rounded-2xl"),
-            genderValue === "female" &&
+            values.genderValue === "female" &&
               tailwind("bg-fuchsia-200 rounded-2xl"),
           ]}
         >
           <IconButton
             icon="gender-female"
             size={30}
-            onPress={() => setGenderValue("female")}
+            onPress={() => setFieldValue("genderValue", "female")}
           />
         </View>
       </View>
@@ -29,13 +31,13 @@ const GenderButtons = ({ genderValue, setGenderValue }) => {
         <View
           style={[
             tailwind("bg-white rounded-2xl"),
-            genderValue === "male" && tailwind("bg-blue-200 rounded-2xl"),
+            values.genderValue === "male" && tailwind("bg-blue-200 rounded-2xl"),
           ]}
         >
           <IconButton
             icon="gender-male"
             size={30}
-            onPress={() => setGenderValue("male")}
+            onPress={() => setFieldValue("genderValue", "male")}
           />
         </View>
       </View>

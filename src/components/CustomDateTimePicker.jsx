@@ -8,14 +8,17 @@ const CustomDateTimePicker = ({
   setIsDatePickerVisible,
   selectedDate,
   setSelectedDate,
+  setFieldValue,
 }) => {
   const tailwind = useTailwind();
 
   const handleDateSelect = (event, date) => {
     if (date) {
       setSelectedDate(date);
+      setFieldValue("selectedDate", date);
     }
-    setIsDatePickerVisible(Platform.OS === "ios");
+    setIsDatePickerVisible(false);
+    // setIsDatePickerVisible(Platform.OS === "ios");
   };
 
   return (

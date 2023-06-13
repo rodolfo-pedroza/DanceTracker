@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { useTailwind } from "tailwind-rn";
 
-const ActivityLevelModal = ({ visible, setVisible, setActivityLevel }) => {
+const ActivityLevelModal = ({ visible, setVisible, setActivityLevel, setFieldValue }) => {
   const tailwind = useTailwind();
 
   const activityLevels = [
@@ -34,7 +34,7 @@ const ActivityLevelModal = ({ visible, setVisible, setActivityLevel }) => {
   ];
 
   const handleSelectActivityLevel = (level) => {
-    setActivityLevel(level);
+    setFieldValue("activityLevel", level)
     setVisible(false);
   };
 

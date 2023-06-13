@@ -109,6 +109,10 @@
   margin-right: -0.875rem
 }
 
+.-mt-2 {
+  margin-top: -0.5rem
+}
+
 .flex {
   display: flex
 }
@@ -526,6 +530,11 @@
   line-height: 1.75rem
 }
 
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem
+}
+
 .font-bold {
   font-weight: 700
 }
@@ -597,4 +606,9 @@
 .text-stone-600 {
   --tw-text-opacity: 1;
   color: rgb(87 83 78 / var(--tw-text-opacity))
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity))
 }

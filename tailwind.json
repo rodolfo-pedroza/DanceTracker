@@ -145,6 +145,11 @@
 			"marginRight": -14
 		}
 	},
+	"-mt-2": {
+		"style": {
+			"marginTop": -8
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
@@ -714,6 +719,12 @@
 			"lineHeight": 28
 		}
 	},
+	"text-xs": {
+		"style": {
+			"fontSize": 12,
+			"lineHeight": 16
+		}
+	},
 	"font-bold": {
 		"style": {
 			"fontWeight": "700"
@@ -800,6 +811,12 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(87 83 78 / var(--tw-text-opacity))"
+		}
+	},
+	"text-red-500": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(239 68 68 / var(--tw-text-opacity))"
 		}
 	}
 }

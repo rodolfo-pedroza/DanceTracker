@@ -25,16 +25,9 @@ function LastActivitiesCard({ activity }) {
   );
 }
 
-function ActivitiesList ({}) {
+function ActivitiesList () {
   const tailwind = useTailwind();
-  const {activityData, loading } = useFetchActivityData();
-  if (loading) {
-    return (
-      <View style={tailwind("flex-1 justify-center items-center")}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  const {activityData } = useFetchActivityData();
   
   return (
     <View>

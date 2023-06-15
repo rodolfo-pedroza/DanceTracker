@@ -9,6 +9,7 @@ import DanceRoutines from "../pages/DanceRoutines";
 import RoutinePage from "../pages/RoutinePage";
 import RecommendationsPage from "../pages/RecommendationsPage";
 import SearchFoodPage from "../pages/SearchFoodPage";
+import ActivityHistoryPage from "../pages/ActivityHistoryPage";
 
 const Stack = createStackNavigator();
 
@@ -99,6 +100,22 @@ function CombinedNavigator() {
         component={SearchFoodPage}
         options={{
           title: "Buscar Alimento",
+          headerTitleAlign: "center",
+          headerStyle: {
+            backgroundColor: "white",
+          },
+          headerTintColor: "black",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            textAlign: "center",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AtivityHistoryPage"
+        component={ActivityHistoryPage}
+        options={{
+          title: "Historial de Actividad",
           headerTitleAlign: "center",
           headerStyle: {
             backgroundColor: "white",

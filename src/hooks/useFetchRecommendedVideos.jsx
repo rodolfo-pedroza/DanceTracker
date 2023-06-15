@@ -5,6 +5,8 @@ const useFetchRecommendedVideos = (user, bmi, bmr, bmiClassification) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   
+  // console.log('user', user)
+  
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);

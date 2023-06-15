@@ -84,8 +84,8 @@ const Home = memo(({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={tailwind("text-lg font-bold px-8 my-2")}>Última actividad</Text>
-        <ActivitiesList />
+        <Text style={tailwind("text-lg font-bold px-8 my-2 text-center")}>Actividad de hoy</Text>
+        <ActivitiesList showOnlyToday />
       </ScrollView>
     </SafeAreaView>
   );

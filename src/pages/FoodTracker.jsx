@@ -55,19 +55,24 @@ function FoodTracker() {
     navitation.navigate("SearchFoodPage", { meal, displayedDate: displayedDate.toISOString() })
   }; 
 
+  console.log('displayedDate', displayedDate)
+
   const handlePevDate = () => {
-    const prevDate = new Date(displayedDate);
-    prevDate.setDate(prevDate.getDate() - 1);
-    setDisplayedDate(prevDate);
-    console.log('newDate', displayedDate)
-  };
-  
-  const handleNextDate = () => {
-    const nextDate = new Date(displayedDate);
-    nextDate.setDate(nextDate.getDate() + 1);
-    setDisplayedDate(nextDate);
-    console.log('newDate', displayedDate)
-  };
+  const prevDate = new Date(displayedDate);
+  prevDate.setDate(prevDate.getDate() - 1);
+  prevDate.setHours(12, 0, 0, 0);
+  setDisplayedDate(prevDate);
+  console.log('newDate', displayedDate)
+};
+
+const handleNextDate = () => {
+  const nextDate = new Date(displayedDate);
+  nextDate.setDate(nextDate.getDate() + 1);
+  nextDate.setHours(12, 0, 0, 0);
+  setDisplayedDate(nextDate);
+  console.log('newDate', displayedDate)
+};
+
 
   if (loading) {
     return (

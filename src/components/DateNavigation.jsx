@@ -21,7 +21,7 @@ const DateNavigation = ({ displayedDate, onPrevDate, onNextDate }) => {
           onPress={onPrevDate}
           iconColor="#4338ca"
         />
-        <Text style={tailwind("text-base font-bold")}>{getDisplayedDate(formattedDate)}</Text>
+        <Text style={tailwind("text-base font-bold")}>{getDisplayedDate(displayedDate)}</Text>
         <IconButton
           icon="chevron-right-circle-outline"
           size={24}

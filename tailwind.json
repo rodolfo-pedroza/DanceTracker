@@ -245,6 +245,11 @@
 			"width": "100%"
 		}
 	},
+	"w-40": {
+		"style": {
+			"width": 160
+		}
+	},
 	"flex-1": {
 		"style": {
 			"flexGrow": 1,
@@ -694,6 +699,12 @@
 		"style": {
 			"--tw-text-opacity": 1,
 			"color": "rgb(255 255 255 / var(--tw-text-opacity))"
+		}
+	},
+	"text-indigo-500": {
+		"style": {
+			"--tw-text-opacity": 1,
+			"color": "rgb(99 102 241 / var(--tw-text-opacity))"
 		}
 	}
 }

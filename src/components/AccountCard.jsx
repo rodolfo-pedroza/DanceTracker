@@ -11,6 +11,10 @@ const AccountCard = () => {
     const onDataPress = () => {
         navigation.navigate('UserDataPage')
     }
+
+    const onHistoryPress = () => {
+        navigation.navigate('AtivityHistoryPage')
+    }
     
     return (
         <View>
@@ -36,7 +40,7 @@ const AccountCard = () => {
                         <IconButton icon="chart-pie" size={24} iconColor='#818cf8' />
                         <Text style={tailwind('text-sm')}>Historial de Actividad</Text>
                     </View>
-                        <IconButton icon="chevron-right" size={24} iconColor='#818cf8' />
+                        <IconButton icon="chevron-right" size={24} iconColor='#818cf8' onPress={onHistoryPress} />
                     </View>
                     {/* <View style={tailwind('flex-row justify-between items-center')}>
                         <View style={tailwind('flex-row items-center')}>

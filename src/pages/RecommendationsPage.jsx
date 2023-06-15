@@ -40,12 +40,11 @@ const RecommendationsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("salsa");
   const navigation = useNavigation();
   const { profileData } = useProfileData(user);
-  console.log("profileData recomend", profileData);
   const classification = profileData?.classification;
   const bmi = profileData?.bmi;
   const bmr = profileData?.bmr;
 
-  const { data, loading } = useFetchRecommendedVideos(
+  const { data, isLoading } = useFetchRecommendedVideos(
     userData,
     bmi,
     bmr,
@@ -72,12 +71,10 @@ const RecommendationsPage = () => {
     return transformedData;
   };
 
-  console.log("data", userData);
-
   const transformedData = data ? transformData(data) : null;
 
   return (
-    <ScrollView >
+    <ScrollView>
       <View
         style={tailwind("flex flex-row justify-between items-center px-8 pt-8")}
       >
@@ -132,8 +129,13 @@ const RecommendationsPage = () => {
       </View>
       <View style={tailwind("flex-1 px-8 py-4 ")}>
         <View>
-          {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+          {isLoading ? (
+            <View style={tailwind("flex-1 items-center justify-center mt-4")}>
+              <ActivityIndicator size="large" color="#0000ff" />
+              <Text style={tailwind("text-center text-xl mt-4")}>
+                Cargando...
+              </Text>
+            </View>
           ) : !transformedData || Object.keys(transformedData).length === 0 ? (
             <Text style={tailwind("text-center text-xl mt-4")}>
               Aún no contamos con videos que podamos recomendarte, estamos

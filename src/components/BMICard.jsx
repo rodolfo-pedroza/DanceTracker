@@ -29,28 +29,29 @@ function BmiCard(  ) {
   };
 
   return (
-    <Card style={tailwind("px-4 mx-8 my-4 rounded-3xl bg-indigo-100")}>
-      <Card.Title title="IMC (Índice de masa corporal)" />
-      {isLoading ? (
-        <View style={tailwind('px-4 text-lg font-bold')}>
-          <Text>Loading Profile Data...</Text>
-        </View>
-      ) : (
-        <>
-          {loading ? (
-            <View style={tailwind('px-4 text-lg font-bold')}>
-              <Text>Loading...</Text>
-            </View>
-          ) : (
-            <>
-              {userData && profileData ? (
-                <>
-                  <Text style={tailwind('px-4 mb-2 text-base ')}>Su IMC es 
-                    <Text style={tailwind('text-indigo-400 text-lg font-bold')}> {profileData.bmi} </Text>
-                  </Text>
-                  <Text style={tailwind('px-4 mb-2 text-sm ')}>Lo que indica que su peso esta en la categoría de
-                    <Text style={tailwind('text-indigo-400 text-lg font-bold')}> {profileData.classification} </Text>
-                  </Text>
+  <Card style={tailwind("px-4 mx-8 my-4 rounded-3xl bg-indigo-100")}>
+    <Card.Title title="IMC (Índice de masa corporal)" />
+    {isLoading ? (
+      <View style={tailwind('px-4 text-lg font-bold')}>
+        <Text>Loading Profile Data...</Text>
+      </View>
+    ) : (
+      <>
+        {loading ? (
+          <View style={tailwind('px-4 text-lg font-bold')}>
+            <Text>Loading...</Text>
+          </View>
+        ) : (
+          <>
+            {userData && profileData ? (
+              <>
+                <Text style={tailwind('px-4 mb-2 text-base ')}>Su IMC es 
+                  <Text style={tailwind('text-indigo-400 text-lg font-bold')}> {profileData.bmi} </Text>
+                </Text>
+                <Text style={tailwind('px-4 mb-2 text-sm ')}>Lo que indica que su peso esta en la categoría de
+                  <Text style={tailwind('text-indigo-400 text-lg font-bold')}> {profileData.classification} </Text>
+                </Text>
+                {!userData || !profileData ? (
                   <View style={tailwind()}>
                     <TouchableOpacity
                       style={tailwind("rounded-3xl p-2.5 m-2 mb-4 w-28 bg-purple-300")}
@@ -59,24 +60,26 @@ function BmiCard(  ) {
                       <Text style={tailwind("text-center")}>Actualizar</Text>
                     </TouchableOpacity>
                   </View>
-                </>
-              ) : (
-                <>
-                <Text style={tailwind('px-4 mb-2 text-base font-bold')}>Por favor, complete su información</Text>
-                <TouchableOpacity
-                  style={tailwind("rounded-3xl p-2.5 m-2 mb-4 w-28 bg-purple-300")}
-                  onPress={navigateToProfilePage}
-                >
-                  <Text style={tailwind("text-center")}>Completar</Text>
-                </TouchableOpacity>
-                </>
-              )}
-            </>
-          )}
-        </>
-      )}
-    </Card>
-  );
+                ) : null}
+              </>
+            ) : (
+              <>
+              <Text style={tailwind('px-4 mb-2 text-base font-bold')}>Por favor, complete su información</Text>
+              <TouchableOpacity
+                style={tailwind("rounded-3xl p-2.5 m-2 mb-4 w-28 bg-purple-300")}
+                onPress={navigateToProfilePage}
+              >
+                <Text style={tailwind("text-center")}>Completar</Text>
+              </TouchableOpacity>
+              </>
+            )}
+          </>
+        )}
+      </>
+    )}
+  </Card>
+);
+
 }
 
 export default BmiCard;

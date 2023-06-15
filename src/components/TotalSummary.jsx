@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
+import { IconButton } from "react-native-paper";
 import { useTailwind } from "tailwind-rn";
+import SuggestedCaloriesModal from "./SuggestedCaloriesModal";
 
 const TotalSummary = ({ totals, suggestedCalories }) => {
   const tailwind = useTailwind();
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+  
   return (
     <View>
       <View
@@ -23,6 +30,7 @@ const TotalSummary = ({ totals, suggestedCalories }) => {
             <Text style={tailwind("text-sm text-center")}>Calorías totales</Text>
           </View>
           <View style={tailwind("bg-white rounded-2xl w-36")}>
+            <View style={tailwind("flex flex-row justify-center items-center")}>
             <Text
               style={tailwind(
                 "text-base font-bold text-indigo-400 text-center"
@@ -31,6 +39,14 @@ const TotalSummary = ({ totals, suggestedCalories }) => {
               {" "}
               {suggestedCalories} cal
             </Text>
+            <IconButton
+              icon="help-circle-outline"
+              iconColor="#818cf8"
+              size={20}
+              onPress={toggleModal}
+              style={tailwind("-mt-1 -mb-1")}
+            />
+            </View>
             <Text style={tailwind("text-sm text-center")}>Calorías sugeridas</Text>
           </View>
         </View>
@@ -74,6 +90,10 @@ const TotalSummary = ({ totals, suggestedCalories }) => {
           </View>
         </View>
       </View>
+      <SuggestedCaloriesModal
+        isVisible={modalVisible}
+        onClose={toggleModal}
+      />
     </View>
   );
 };

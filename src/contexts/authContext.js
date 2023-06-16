@@ -57,7 +57,7 @@ export const AuthProvider = ({ children, navigation }) => {
 
   const getFitbitAuthUrl = () => {
     const authUrl = "https://www.fitbit.com/oauth2/authorize";
-    const clientId = "23QWSK";
+    const clientId = "23R6CZ";
     const redirectUrl = makeRedirectUri({ useProxy: true });
     const scopes = [
       "activity",
@@ -104,6 +104,10 @@ export const AuthProvider = ({ children, navigation }) => {
       "44072014527-rt4cqevom2qe5uu7l1nfnk3jseea407i.apps.googleusercontent.com",
     expoClientId:
       "44072014527-af9gagksmelb0mkult2855omths9acrv.apps.googleusercontent.com",
+    redirectUri: makeRedirectUri({
+      useProxy: true,
+      native: "danceTracker://",
+    }),
   });
 
   const loginWithGoogle = () => {

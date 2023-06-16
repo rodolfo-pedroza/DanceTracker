@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "com.rodopunk.DanceTracker",
+    "scheme": "dancetracker",
     "name": "DanceTracker",
     "slug": "DanceTracker",
     "version": "1.0.0",
@@ -28,6 +28,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "owner": "rodopunk",
     "extra": {
       "eas": {
         "projectId": "370f49a3-8a43-4bee-8846-630962738155"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Platform,
@@ -17,6 +17,7 @@ import useFoodItem from "../hooks/useFoodItem.jsx";
 import { food } from "../data/food.js";
 import Ingredient from "../components/Ingredient.jsx";
 import FoodInformationModal from "../components/FoodInformationModal.jsx";
+import { translateFoodName } from "../utils/translateUtils.js";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,10 +30,6 @@ function SearchFoodPage({ route}) {
   const tailwind = useTailwind();
   const { meal, displayedDate: displayedDateString } = route.params;
   const displayedDate = new Date(displayedDateString);
-  console.log(`displayedDate search: ${displayedDate}`);
-
-  console.log(`meal: ${meal}`);
-
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFoodName, setSelectedFoodName] = useState('');
   const [shouldFetchFoodItem, setShouldFetchFoodItem] = useState(false);
@@ -41,9 +38,12 @@ function SearchFoodPage({ route}) {
   // const searchResults = food;
   const searchResults = useFoodSearch(searchQuery);
   // console.log(`searchResults: ${JSON.stringify(searchResults, null, 2)}`);
+  const [translatedItem, setTranslatedItem] = useState(null);
 
-
+  
+  
   const handleIngredientPress = (foodName) => {
+    console.log(`foodName modal: ${foodName}`);
     if (foodName) {
       setSelectedFoodName(foodName);
       setShouldFetchFoodItem(true);
@@ -60,8 +60,18 @@ function SearchFoodPage({ route}) {
 
   const foodItem = useFoodItem(selectedFoodName, shouldFetchFoodItem, setShouldFetchFoodItem);
   const item = foodItem ? foodItem.foods[0] : null;
-  // console.log(`item search: ${JSON.stringify(item, null, 2)}`);
 
+  useEffect(() => {
+  const translateItem = async () => {
+    if (item) {
+      const translatedFoodName = await translateFoodName(item.food_name);
+      setTranslatedItem({ ...item, food_name: translatedFoodName });
+    }
+  };
+
+  translateItem();
+}, [item]);
+  
   return (
     <View style={styles.container}>
       <View style={tailwind("px-8")}>
@@ -81,9 +91,9 @@ function SearchFoodPage({ route}) {
           />
         </View>
         <ScrollView>
-          {searchResults.map((result) => (
+          {searchResults.map((result, index) => (
             <Ingredient
-              key={result.food_name || result.nix_item_id}
+              key={`${result.food_name || result.nix_item_id}-${index}`}
               name={result.food_name || result.brand_name}
               image={result.photo.thumb || result.foods[0].photo.thumb}
               showHorizontalScrollIndicator={false}
@@ -95,7 +105,7 @@ function SearchFoodPage({ route}) {
         <FoodInformationModal 
           show={isModalVisible}
           handleClose={handleModalClose}
-          food={item}
+          food={translatedItem}
           meal={meal}
           displayedDate={displayedDate}
         />

@@ -29,7 +29,6 @@ const RoutinePage = ({ route }) => {
   const [caloriesBurned, setCaloriesBurned] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // console.log("authToken", authToken);
   const togglePlayBack = async () => {
     if (!video.current) {
       console.log("no video");

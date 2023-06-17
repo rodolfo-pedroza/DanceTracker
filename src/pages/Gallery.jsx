@@ -55,7 +55,7 @@ function Gallery() {
           <WarningModal
             visible={modalVisible}
             onDismiss={() => setModalVisible(false)}
-            classification={profileData.classification}
+            classification={profileData?.classification}
           />
         </>
       )}

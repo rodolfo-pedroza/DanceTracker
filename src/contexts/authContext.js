@@ -106,7 +106,6 @@ export const AuthProvider = ({ children, navigation }) => {
       "44072014527-af9gagksmelb0mkult2855omths9acrv.apps.googleusercontent.com",
     redirectUri: makeRedirectUri({
       useProxy: true,
-      native: "danceTracker://",
     }),
   });
 

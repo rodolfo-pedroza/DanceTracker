@@ -1,3 +1,4 @@
+// andorid id: 44072014527-nrrv1dcuj03iu51b2dqrl9kmucgtbn76.apps.googleusercontent.com
 import React, {
   createContext,
   useContext,
@@ -101,16 +102,23 @@ export const AuthProvider = ({ children, navigation }) => {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
-      "44072014527-rt4cqevom2qe5uu7l1nfnk3jseea407i.apps.googleusercontent.com",
+      "44072014527-nrrv1dcuj03iu51b2dqrl9kmucgtbn76.apps.googleusercontent.com",
     expoClientId:
       "44072014527-af9gagksmelb0mkult2855omths9acrv.apps.googleusercontent.com",
-    redirectUri: makeRedirectUri({
-      useProxy: true,
-    }),
   });
 
-  const loginWithGoogle = () => {
-    promptAsync();
+  const loginWithGoogle = async () => {
+    const result = await promptAsync();
+
+    if (result.type === "success") {
+      const { idToken, accessToken } = result.authentication;
+      handleGoogleSignin(idToken, accessToken);
+    } else if (result.type === "cancel") {
+      console.log("User canceled Google login");
+    } else {
+      console.log("Google login error:", result);
+      console.log("Error details:", result.error);
+    }
   };
 
   useEffect(() => {

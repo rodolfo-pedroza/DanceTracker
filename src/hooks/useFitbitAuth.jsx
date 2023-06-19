@@ -1,13 +1,9 @@
-import { useState, useEffect } from 'react';
-import { makeRedirectUri, startAsync, useAuthRequest } from 'expo-auth-session';
-import qs from 'qs';
+import * as React from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import { Platform } from 'react-native';
 
-const config = {
-  clientId: '23QWQV',
-  scopes: ['activity', 'heartrate', 'location', 'nutrition', 'profile', 'settings', 'sleep', 'social', 'weight'],
-};
-
-const redirectUri = makeRedirectUri({ useProxy: true });
+WebBrowser.maybeCompleteAuthSession();
 
 const discovery = {
   authorizationEndpoint: 'https://www.fitbit.com/oauth2/authorize',
@@ -15,46 +11,64 @@ const discovery = {
   revocationEndpoint: 'https://api.fitbit.com/oauth2/revoke',
 };
 
-export const useFitbitAuth = () => {
-  const [authToken, setAuthToken] = useState(null);
-  console.log('Initializing useFitbitAuth hook', authToken)
+export default function useFitbitAuth() {
+  const redirectUri = makeRedirectUri({
+    scheme: 'dancetracker',
+  });
+
+  console.log('Fitbit Redirect URI:', redirectUri);
 
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: config.clientId,
-      scopes: config.scopes,
-      redirectUri: redirectUri,
+      clientId: '23R6CZ',
+      scopes: [
+        'activity',
+        'cardio_fitness',
+        'electrocardiogram',
+        'heartrate',
+        'location',
+        'nutrition',
+        'oxygen_saturation',
+        'profile',
+        'respiratory_rate',
+        'settings',
+        'sleep',
+        'social',
+        'temperature',
+        'weight',
+      ],
+      redirectUri,
     },
     discovery
   );
 
-  useEffect(() => {
-    if (response?.type === 'success') {
-      const { access_token } = response.params;
-      setAuthToken(access_token);
-    }
-  }, [response]);
+  React.useEffect(() => {
+  if (response?.type === 'success') {
+    const { code } = response.params;
+    // Make a request to your server with the code to exchange it for an access token
+    // Example using fetch:
+    fetch('https://api.fitbit.com/oauth2/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `client_id=CLIENT_ID&grant_type=authorization_code&code=${code}&redirect_uri=your.app://callback`,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const { accessToken } = data;
+        // Do something with the access token
+        console.log('Access Token:', accessToken);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error('Error:', error);
+      });
+  }
+}, [response]);
 
-  const getFitbitAuthUrl = () => {
-    const authUrl = 'https://www.fitbit.com/oauth2/authorize';
-    const queryParams = qs.stringify({
-      client_id: config.clientId,
-      response_type: 'token',
-      scope: config.scopes.join(' '),
-      redirect_uri: redirectUri,
-      expires_in: '31536000',
-    });
-    return `${authUrl}?${queryParams}`;
+  return {
+    request,
+    promptAsync,
   };
-
-  const handlePress = async () => {
-    const authUrl = getFitbitAuthUrl();
-    const result = await startAsync({ authUrl });
-
-    if (result.type === 'success') {
-      setAuthToken(result.params.access_token);
-    }
-  };
-
-  return { authToken, useFitbitAuthRequest: handlePress };
-};
+}
